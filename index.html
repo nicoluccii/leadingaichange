@@ -432,18 +432,6 @@
             border-color: var(--ocean-blue);
         }
 
-        .copy-success {
-            color: var(--success-green);
-            font-weight: 600;
-            display: none;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .copy-success.show {
-            display: flex;
-        }
-
         /* Footer Actions */
         .footer-actions {
             display: flex;
@@ -1012,12 +1000,15 @@
                 <textarea id="promptOutput" class="prompt-textarea"></textarea>
 
                 <div class="footer-actions">
-                    <button class="btn btn-success" onclick="copyPrompt()">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 0.5rem;">
+                    <button class="btn btn-success" id="copyBtn" onclick="copyPrompt()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 0.5rem;" class="copy-icon">
                             <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                             <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                         </svg>
-                        Prompt kopieren
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 0.5rem; display: none;" class="check-icon">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        <span class="btn-text">Prompt kopieren</span>
                     </button>
                     <button class="btn btn-outline" onclick="downloadPrompt()">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 0.5rem;">
@@ -1027,12 +1018,6 @@
                         </svg>
                         Als .txt herunterladen
                     </button>
-                    <span class="copy-success" id="copySuccess">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                        </svg>
-                        Kopiert!
-                    </span>
                 </div>
 
                 <div class="btn-container">
@@ -1501,24 +1486,35 @@ Bitte starte jetzt mit deiner Analyse und deinem ersten Impuls.`;
         // Copy and download functions
         function copyPrompt() {
             const promptText = document.getElementById('promptOutput').value;
+            const btn = document.getElementById('copyBtn');
+            const copyIcon = btn.querySelector('.copy-icon');
+            const checkIcon = btn.querySelector('.check-icon');
+            const btnText = btn.querySelector('.btn-text');
+
+            const showSuccess = () => {
+                // Change button appearance
+                btn.style.background = '#10B981';
+                copyIcon.style.display = 'none';
+                checkIcon.style.display = 'inline';
+                btnText.textContent = 'Kopiert!';
+
+                // Reset after 3 seconds
+                setTimeout(() => {
+                    btn.style.background = '';
+                    copyIcon.style.display = 'inline';
+                    checkIcon.style.display = 'none';
+                    btnText.textContent = 'Prompt kopieren';
+                }, 3000);
+            };
 
             navigator.clipboard.writeText(promptText).then(() => {
-                const successIndicator = document.getElementById('copySuccess');
-                successIndicator.classList.add('show');
-                setTimeout(() => {
-                    successIndicator.classList.remove('show');
-                }, 3000);
+                showSuccess();
             }).catch(err => {
                 // Fallback for older browsers
                 const textarea = document.getElementById('promptOutput');
                 textarea.select();
                 document.execCommand('copy');
-
-                const successIndicator = document.getElementById('copySuccess');
-                successIndicator.classList.add('show');
-                setTimeout(() => {
-                    successIndicator.classList.remove('show');
-                }, 3000);
+                showSuccess();
             });
         }
 
