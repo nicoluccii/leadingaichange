@@ -716,8 +716,7 @@
             <div class="progress-step" data-step="4"></div>
             <div class="progress-step" data-step="5"></div>
             <div class="progress-step" data-step="6"></div>
-            <div class="progress-step" data-step="7"></div>
-            <span class="progress-text">Schritt <span id="currentStep">1</span> von 7</span>
+            <span class="progress-text">Schritt <span id="currentStep">1</span> von 6</span>
         </div>
     </header>
 
@@ -984,43 +983,13 @@
 
                 <div class="btn-container">
                     <button class="btn btn-secondary" onclick="prevStep()">← Zurück</button>
-                    <button class="btn btn-primary" onclick="nextStep()">Weiter →</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- Step 6: Nächster Schritt -->
-        <section class="step-section" data-step="6">
-            <div class="card">
-                <h2 class="card-title">Dein nächster Schritt</h2>
-                <p class="card-subtitle">Was ist dein konkretes Commitment für die nächsten 7 Tage?</p>
-
-                <div class="help-box">
-                    <div class="help-box-title">💡 Sei konkret</div>
-                    <ul>
-                        <li>Was genau tust du?</li>
-                        <li>Wann?</li>
-                        <li>Mit wem?</li>
-                    </ul>
-                </div>
-
-                <div class="form-group">
-                    <textarea
-                        id="naechsterSchritt"
-                        class="textarea"
-                        placeholder="z.B. 'Am Dienstag führe ich ein 15-minütiges Gespräch mit [Teammitglied], um ihre Bedenken zum Thema KI zu verstehen.'"
-                    ></textarea>
-                </div>
-
-                <div class="btn-container">
-                    <button class="btn btn-secondary" onclick="prevStep()">← Zurück</button>
                     <button class="btn btn-primary" onclick="generatePrompt()">Prompt generieren →</button>
                 </div>
             </div>
         </section>
 
-        <!-- Step 7: Prompt Output -->
-        <section class="step-section" data-step="7">
+        <!-- Step 6: Prompt Output -->
+        <section class="step-section" data-step="6">
             <div class="card">
                 <h2 class="card-title">Dein persönlicher Führungsassistent</h2>
                 <p class="card-subtitle">Kopiere diesen Prompt und füge ihn in Claude oder ChatGPT ein.</p>
@@ -1123,7 +1092,7 @@
         // ========================================
 
         let currentStep = 1;
-        const totalSteps = 7;
+        const totalSteps = 6;
         const STORAGE_KEY = 'leadingAIChange_data';
 
         // Master Prompt Template
@@ -1180,10 +1149,6 @@ WISSEN & ANWENDUNG:
 === ENTWICKLUNGSSITUATION IM TEAM ===
 
 {{situationsbeschreibung}}
-
-=== GEWÄHLTER FOKUS ===
-
-{{naechster_schritt}}
 
 ---
 
@@ -1396,7 +1361,6 @@ Bitte starte jetzt mit deiner Analyse und deinem ersten Impuls.`;
                 q12: document.getElementById('q12')?.value || '5',
                 erkenntnisseAustausch: document.getElementById('erkenntnisseAustausch')?.value || '',
                 situationsbeschreibung: document.getElementById('situationsbeschreibung')?.value || '',
-                naechsterSchritt: document.getElementById('naechsterSchritt')?.value || '',
                 currentStep: currentStep
             };
 
@@ -1415,7 +1379,6 @@ Bitte starte jetzt mit deiner Analyse und deinem ersten Impuls.`;
                 if (data.headline) document.getElementById('headline').value = data.headline;
                 if (data.erkenntnisseAustausch) document.getElementById('erkenntnisseAustausch').value = data.erkenntnisseAustausch;
                 if (data.situationsbeschreibung) document.getElementById('situationsbeschreibung').value = data.situationsbeschreibung;
-                if (data.naechsterSchritt) document.getElementById('naechsterSchritt').value = data.naechsterSchritt;
 
                 // Restore sliders
                 const sliderIds = ['eigeneNutzung', 'erwartungOrganisation',
@@ -1489,8 +1452,7 @@ Bitte starte jetzt mit deiner Analyse und deinem ersten Impuls.`;
                 q11: document.getElementById('q11')?.value || '5',
                 q12: document.getElementById('q12')?.value || '5',
                 erkenntnisse_austausch: document.getElementById('erkenntnisseAustausch')?.value || '(nicht angegeben)',
-                situationsbeschreibung: document.getElementById('situationsbeschreibung')?.value || '(nicht angegeben)',
-                naechster_schritt: document.getElementById('naechsterSchritt')?.value || '(nicht angegeben)'
+                situationsbeschreibung: document.getElementById('situationsbeschreibung')?.value || '(nicht angegeben)'
             };
 
             // Replace variables in template
@@ -1504,7 +1466,7 @@ Bitte starte jetzt mit deiner Analyse und deinem ersten Impuls.`;
             document.getElementById('promptOutput').value = prompt;
 
             // Navigate to output step
-            currentStep = 7;
+            currentStep = 6;
             showStep(currentStep);
         }
 
