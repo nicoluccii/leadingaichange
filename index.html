@@ -166,7 +166,7 @@
         .slider-wrapper {
             position: relative;
             padding: 0.5rem 0;
-            padding-right: 3rem;
+            padding-right: 9rem;
         }
 
         .slider {
@@ -212,9 +212,10 @@
             top: -0.25rem;
             font-weight: 700;
             color: var(--chili-red);
-            font-size: 1.25rem;
-            min-width: 2.5rem;
+            font-size: 1.1rem;
+            min-width: 8rem;
             text-align: right;
+            white-space: nowrap;
         }
 
         .slider-scale {
@@ -1340,13 +1341,29 @@ Bitte starte jetzt mit deiner Analyse und deinem ersten Impuls.`;
         // Slider value update
         function updateSliderValue(slider) {
             const valueDisplay = slider.parentElement.querySelector('.slider-value');
-            if (valueDisplay) {
-                valueDisplay.textContent = slider.value;
+            const value = parseInt(slider.value);
+
+            // Get color and label based on value
+            let color, label;
+            if (value <= 3) {
+                color = '#EF4444'; // Red
+                label = 'Ausbaufähig';
+            } else if (value <= 6) {
+                color = '#F59E0B'; // Orange
+                label = 'Im Aufbau';
+            } else {
+                color = '#10B981'; // Green
+                label = 'Gut aufgestellt';
             }
 
-            // Update slider background gradient
-            const percent = (slider.value / 10) * 100;
-            slider.style.background = `linear-gradient(to right, #FE1230 0%, #FE1230 ${percent}%, #E2E8F0 ${percent}%, #E2E8F0 100%)`;
+            if (valueDisplay) {
+                valueDisplay.innerHTML = `${value} <span style="font-size: 0.7rem; font-weight: 400; color: ${color};">· ${label}</span>`;
+                valueDisplay.style.color = color;
+            }
+
+            // Update slider background gradient with dynamic color
+            const percent = (value / 10) * 100;
+            slider.style.background = `linear-gradient(to right, ${color} 0%, ${color} ${percent}%, #E2E8F0 ${percent}%, #E2E8F0 100%)`;
         }
 
         // Initialize all sliders
