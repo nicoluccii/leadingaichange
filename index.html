@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leading AI Change – Cockpit</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌶️</text></svg>">
     <style>
         /* ========================================
            CSS: Chili and Change Corporate Identity
@@ -609,6 +610,95 @@
             opacity: 1;
             transform: translateY(0);
         }
+
+        /* Privacy Notice */
+        .privacy-notice {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            border-top: 1px solid var(--border-light);
+            padding: 0.5rem 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            color: var(--text-light);
+            z-index: 100;
+        }
+
+        .privacy-notice svg {
+            flex-shrink: 0;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--card-white);
+            border-top: 1px solid var(--border-light);
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .footer-grid {
+            max-width: 800px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .footer-col h4 {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-col a {
+            color: var(--ocean-blue);
+            text-decoration: none;
+            font-size: 0.875rem;
+        }
+
+        .footer-col a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-col p {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            line-height: 1.5;
+        }
+
+        .footer-bottom {
+            max-width: 800px;
+            margin: 1.5rem auto 0;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-light);
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+
+        @media (max-width: 640px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .privacy-notice {
+                font-size: 0.7rem;
+                padding: 0.4rem 0.75rem;
+            }
+        }
+
+        /* Adjust main container for fixed footer */
+        .main-container {
+            padding-bottom: 3rem;
+        }
     </style>
 </head>
 <body>
@@ -635,22 +725,31 @@
         <!-- Step 1: Welcome -->
         <section class="step-section active" data-step="1">
             <div class="card">
-                <div class="welcome-icon">🚀</div>
-                <h1 class="card-title">Willkommen zum Cockpit</h1>
-                <p class="card-subtitle">Dein persönlicher Begleiter für den "Leading AI Change"-Workshop</p>
+                <div class="welcome-icon">🌶️</div>
+                <h1 class="card-title">Willkommen in deinem Führungscockpit</h1>
+                <p class="card-subtitle">Dein persönlicher Begleiter für das Zirkeltraining "Leading AI Change"</p>
+
+                <div class="help-box" style="margin-bottom: 1.5rem;">
+                    <div class="help-box-title">🎯 Lernziele dieser Session</div>
+                    <ul>
+                        <li>Du reflektierst deine eigene Haltung und Kompetenz im Umgang mit KI</li>
+                        <li>Du erkennst, wo dein Team im Veränderungsprozess steht</li>
+                        <li>Du entwickelst ein konkretes "Führungssignal" für die KI-Transformation</li>
+                    </ul>
+                </div>
 
                 <div class="feature-list">
                     <div class="feature-item">
                         <span class="feature-icon">✓</span>
-                        <span>Reflektiere deine Ausgangslage und Führungsrolle</span>
+                        <span><strong>Selbstcheck:</strong> Reflektiere deine Ausgangslage und Führungsrolle</span>
                     </div>
                     <div class="feature-item">
                         <span class="feature-icon">✓</span>
-                        <span>Halte deine Erkenntnisse aus dem Workshop fest</span>
+                        <span><strong>Dokumentation:</strong> Halte deine Erkenntnisse aus dem Zirkeltraining fest</span>
                     </div>
                     <div class="feature-item">
                         <span class="feature-icon">✓</span>
-                        <span>Generiere deinen persönlichen KI-Führungsassistenten</span>
+                        <span><strong>KI-Assistent:</strong> Generiere deinen persönlichen Führungsbegleiter für die Zeit nach dem Training</span>
                     </div>
                 </div>
 
@@ -930,6 +1029,10 @@
                     <p>Du kannst den Prompt vor dem Kopieren noch anpassen.</p>
                 </div>
 
+                <div class="warning-box" style="background: rgba(0, 97, 247, 0.05); border-left-color: var(--ocean-blue);">
+                    ⚖️ <strong>Hinweis:</strong> KI ist Assistenz – die Verantwortung bleibt beim Menschen. Output ist EU AI Act konform.
+                </div>
+
                 <textarea id="promptOutput" class="prompt-textarea"></textarea>
 
                 <div class="footer-actions">
@@ -968,6 +1071,36 @@
         </section>
     </main>
 
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Webseite</h4>
+                <a href="https://www.chili-and-change.de" target="_blank" rel="noopener">www.chili-and-change.de</a>
+            </div>
+            <div class="footer-col">
+                <h4>Newsletter</h4>
+                <a href="https://t9dd5820b.emailsys1a.net/204/693/1ffdc28d7b/subscribe/form.html?_g=1762792068" target="_blank" rel="noopener">Jetzt abonnieren</a>
+            </div>
+            <div class="footer-col">
+                <h4>Haftungsausschluss</h4>
+                <p>Dieses Tool dient als Reflexionshilfe. Für die Richtigkeit der KI-generierten Inhalte wird keine Haftung übernommen.</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2025 Chili and Change. Alle Rechte vorbehalten.
+        </div>
+    </footer>
+
+    <!-- Privacy Notice (fixed bottom) -->
+    <div class="privacy-notice">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+        <span>Datenschutz: Alle Daten bleiben lokal in deinem Browser gespeichert – keine Serverübertragung.</span>
+    </div>
+
     <!-- Saved Indicator -->
     <div class="saved-indicator" id="savedIndicator">✓ Gespeichert</div>
 
@@ -1002,7 +1135,7 @@ Du arbeitest nach dem Prinzip "Augmented Leadership":
 - Erfahrung, Urteil und Verantwortung bleiben beim Menschen
 - Du hilfst beim Denken und Strukturieren, nicht beim Entscheiden
 
-Wichtig: Die Führungskraft hat gerade einen Workshop durchlaufen und dabei
+Wichtig: Die Führungskraft hat gerade ein Zirkeltraining durchlaufen und dabei
 verschiedene Reflexionen gemacht. Diese Daten bekommst du als Input.
 Nutze sie, um individuell und situationsbezogen zu unterstützen.
 
