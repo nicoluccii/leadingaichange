@@ -689,6 +689,29 @@
         .main-container {
             padding-bottom: 3rem;
         }
+
+        /* Verortung Slider Styles */
+        .verortung-slider {
+            padding-right: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .verortung-slider .slider {
+            width: 100%;
+        }
+
+        .verortung-value {
+            position: static !important;
+            min-width: auto !important;
+            text-align: left !important;
+            font-size: 0.9rem !important;
+            padding: 0.5rem 0.75rem;
+            background: rgba(254, 18, 48, 0.08);
+            border-radius: 0.5rem;
+            border-left: 3px solid var(--chili-red);
+        }
     </style>
 </head>
 <body>
@@ -763,25 +786,25 @@
 
                 <div class="slider-container">
                     <label class="slider-label">Eigene KI-Nutzung im Arbeitsalltag</label>
-                    <div class="slider-wrapper">
-                        <input type="range" min="0" max="10" value="5" class="slider" id="eigeneNutzung" oninput="updateSliderValue(this)">
-                        <span class="slider-value">5</span>
+                    <div class="slider-wrapper verortung-slider">
+                        <input type="range" min="1" max="5" value="3" class="slider" id="eigeneNutzung" oninput="updateSliderValue(this)">
+                        <span class="slider-value verortung-value">3</span>
                     </div>
                     <div class="slider-scale">
-                        <span>0 – Nutze KI nicht</span>
-                        <span>10 – Nutze KI intensiv</span>
+                        <span>1 – Nutze ich gar nicht</span>
+                        <span>5 – Gestaltend</span>
                     </div>
                 </div>
 
                 <div class="slider-container">
-                    <label class="slider-label">Erwartung der Organisation an KI-Nutzung</label>
-                    <div class="slider-wrapper">
-                        <input type="range" min="0" max="10" value="5" class="slider" id="erwartungOrganisation" oninput="updateSliderValue(this)">
-                        <span class="slider-value">5</span>
+                    <label class="slider-label">Wahrgenommene Erwartung / Zug aus der Organisation</label>
+                    <div class="slider-wrapper verortung-slider">
+                        <input type="range" min="1" max="5" value="3" class="slider" id="erwartungOrganisation" oninput="updateSliderValue(this)">
+                        <span class="slider-value verortung-value">3</span>
                     </div>
                     <div class="slider-scale">
-                        <span>0 – Keine Erwartung</span>
-                        <span>10 – Sehr hohe Erwartung</span>
+                        <span>1 – Kaum Thema</span>
+                        <span>5 – Strategischer Fokus</span>
                     </div>
                 </div>
 
@@ -1156,8 +1179,8 @@ HEADLINE (Stimmung/Haltung):
 {{headline}}
 
 VERORTUNG ICH & ORGANISATION:
-- Eigene KI-Nutzung im Arbeitsalltag: {{eigene_nutzung}} / 10
-- Erwartung der Organisation an KI-Nutzung: {{erwartung_organisation}} / 10
+- Eigene KI-Nutzung im Arbeitsalltag: {{eigene_nutzung}} / 5 – {{eigene_nutzung_label}}
+- Wahrgenommene Erwartung / Zug aus der Organisation: {{erwartung_organisation}} / 5 – {{erwartung_organisation_label}}
 
 === SELBSTCHECK: MEINE FÜHRUNGSROLLE IM KONTEXT VON KI ===
 
@@ -1370,6 +1393,24 @@ Bitte starte jetzt mit deiner Analyse und deinem ersten Impuls.`;
             document.getElementById('currentStep').textContent = currentStep;
         }
 
+        // Verortung slider labels
+        const verortungLabels = {
+            eigeneNutzung: {
+                1: 'Nutze ich gar nicht',
+                2: 'Punktuell (Texte umschreiben, Ideen sammeln)',
+                3: 'Regelmäßig unterstützend (Vorbereitung, Analyse, Struktur)',
+                4: 'Systematisch (Workflows, Automationen, Team-Nutzung)',
+                5: 'Gestaltend (Architekturen, Enablement, Governance)'
+            },
+            erwartungOrganisation: {
+                1: 'Kaum Thema / keine Erwartung',
+                2: 'Implizite Erwartung („Man sollte sich halt mal…")',
+                3: 'Explizite Signale durch Führung',
+                4: 'Klare Ziele / Initiativen',
+                5: 'Strategischer Fokus / hoher Erwartungsdruck'
+            }
+        };
+
         // Slider value update
         function updateSliderValue(slider) {
             const valueDisplay = slider.parentElement.querySelector('.slider-value');
@@ -1378,8 +1419,21 @@ Bitte starte jetzt mit deiner Analyse und deinem ersten Impuls.`;
 
             // Check if this is a self-check slider (q1-q12) - only these get qualitative labels
             const isSelfCheckSlider = /^q\d+$/.test(sliderId);
+            // Check if this is a Verortung slider
+            const isVerortungSlider = verortungLabels.hasOwnProperty(sliderId);
 
-            if (isSelfCheckSlider) {
+            if (isVerortungSlider) {
+                // Verortung sliders - show number + text label
+                const label = verortungLabels[sliderId][value];
+                if (valueDisplay) {
+                    valueDisplay.innerHTML = `<strong>${value}</strong> – ${label}`;
+                    valueDisplay.style.color = '#FE1230';
+                }
+
+                // Slider background (1-5 scale)
+                const percent = ((value - 1) / 4) * 100;
+                slider.style.background = `linear-gradient(to right, #FE1230 0%, #FE1230 ${percent}%, #E2E8F0 ${percent}%, #E2E8F0 100%)`;
+            } else if (isSelfCheckSlider) {
                 // Get color and label based on value
                 let color, label;
                 if (value <= 3) {
@@ -1402,7 +1456,7 @@ Bitte starte jetzt mit deiner Analyse und deinem ersten Impuls.`;
                 const percent = (value / 10) * 100;
                 slider.style.background = `linear-gradient(to right, ${color} 0%, ${color} ${percent}%, #E2E8F0 ${percent}%, #E2E8F0 100%)`;
             } else {
-                // For Verortung sliders - just show the number, use Chili Red
+                // Fallback for any other sliders
                 if (valueDisplay) {
                     valueDisplay.textContent = value;
                     valueDisplay.style.color = '#FE1230';
@@ -1422,8 +1476,8 @@ Bitte starte jetzt mit deiner Analyse und deinem ersten Impuls.`;
         function saveToStorage() {
             const data = {
                 headline: document.getElementById('headline')?.value || '',
-                eigeneNutzung: document.getElementById('eigeneNutzung')?.value || '5',
-                erwartungOrganisation: document.getElementById('erwartungOrganisation')?.value || '5',
+                eigeneNutzung: document.getElementById('eigeneNutzung')?.value || '3',
+                erwartungOrganisation: document.getElementById('erwartungOrganisation')?.value || '3',
                 q1: document.getElementById('q1')?.value || '5',
                 q2: document.getElementById('q2')?.value || '5',
                 q3: document.getElementById('q3')?.value || '5',
@@ -1516,10 +1570,16 @@ Bitte starte jetzt mit deiner Analyse und deinem ersten Impuls.`;
         function generatePrompt() {
             saveToStorage();
 
+            // Get Verortung values with labels
+            const eigeneNutzungValue = parseInt(document.getElementById('eigeneNutzung')?.value || '3');
+            const erwartungOrgValue = parseInt(document.getElementById('erwartungOrganisation')?.value || '3');
+
             const data = {
                 headline: document.getElementById('headline')?.value || '(nicht angegeben)',
-                eigene_nutzung: document.getElementById('eigeneNutzung')?.value || '5',
-                erwartung_organisation: document.getElementById('erwartungOrganisation')?.value || '5',
+                eigene_nutzung: eigeneNutzungValue,
+                eigene_nutzung_label: verortungLabels.eigeneNutzung[eigeneNutzungValue],
+                erwartung_organisation: erwartungOrgValue,
+                erwartung_organisation_label: verortungLabels.erwartungOrganisation[erwartungOrgValue],
                 q1: document.getElementById('q1')?.value || '5',
                 q2: document.getElementById('q2')?.value || '5',
                 q3: document.getElementById('q3')?.value || '5',
