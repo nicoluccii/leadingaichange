@@ -963,10 +963,35 @@
                 </div>
 
                 <div class="form-group">
+                    <label class="form-label" for="situationsbeschreibung">Entwicklungssituation</label>
+                    <p class="form-hint">Was beobachtest du in deinem Team?</p>
                     <textarea
                         id="situationsbeschreibung"
                         class="textarea"
-                        placeholder="Beschreibe hier die Entwicklungssituation..."
+                        style="min-height: 100px;"
+                        placeholder="z.B. 'Ein Teil des Teams ist neugierig auf KI, andere sind skeptisch...'"
+                    ></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="zentraleHerausforderung">Zentrale Herausforderung</label>
+                    <p class="form-hint">Was ist der Knackpunkt? Was macht es schwierig?</p>
+                    <textarea
+                        id="zentraleHerausforderung"
+                        class="textarea"
+                        style="min-height: 100px;"
+                        placeholder="z.B. 'Es fehlt an Zeit und klaren Use Cases für den Einstieg...'"
+                    ></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="entwicklungsziel">Entwicklungsziel</label>
+                    <p class="form-hint">Wo soll es hingehen? Was wäre ein gutes Ergebnis?</p>
+                    <textarea
+                        id="entwicklungsziel"
+                        class="textarea"
+                        style="min-height: 100px;"
+                        placeholder="z.B. 'Das Team probiert gemeinsam erste KI-Tools aus und tauscht sich regelmäßig aus...'"
                     ></textarea>
                 </div>
 
@@ -1162,7 +1187,14 @@ WISSEN & ANWENDUNG:
 
 === ENTWICKLUNGSSITUATION IM TEAM ===
 
+Situation:
 {{situationsbeschreibung}}
+
+Zentrale Herausforderung:
+{{zentrale_herausforderung}}
+
+Entwicklungsziel:
+{{entwicklungsziel}}
 
 ---
 
@@ -1391,6 +1423,8 @@ Bitte starte jetzt mit deiner Analyse und deinem ersten Impuls.`;
                 q12: document.getElementById('q12')?.value || '5',
                 erkenntnisseAustausch: document.getElementById('erkenntnisseAustausch')?.value || '',
                 situationsbeschreibung: document.getElementById('situationsbeschreibung')?.value || '',
+                zentraleHerausforderung: document.getElementById('zentraleHerausforderung')?.value || '',
+                entwicklungsziel: document.getElementById('entwicklungsziel')?.value || '',
                 currentStep: currentStep
             };
 
@@ -1409,6 +1443,8 @@ Bitte starte jetzt mit deiner Analyse und deinem ersten Impuls.`;
                 if (data.headline) document.getElementById('headline').value = data.headline;
                 if (data.erkenntnisseAustausch) document.getElementById('erkenntnisseAustausch').value = data.erkenntnisseAustausch;
                 if (data.situationsbeschreibung) document.getElementById('situationsbeschreibung').value = data.situationsbeschreibung;
+                if (data.zentraleHerausforderung) document.getElementById('zentraleHerausforderung').value = data.zentraleHerausforderung;
+                if (data.entwicklungsziel) document.getElementById('entwicklungsziel').value = data.entwicklungsziel;
 
                 // Restore sliders
                 const sliderIds = ['eigeneNutzung', 'erwartungOrganisation',
@@ -1482,7 +1518,9 @@ Bitte starte jetzt mit deiner Analyse und deinem ersten Impuls.`;
                 q11: document.getElementById('q11')?.value || '5',
                 q12: document.getElementById('q12')?.value || '5',
                 erkenntnisse_austausch: document.getElementById('erkenntnisseAustausch')?.value || '(nicht angegeben)',
-                situationsbeschreibung: document.getElementById('situationsbeschreibung')?.value || '(nicht angegeben)'
+                situationsbeschreibung: document.getElementById('situationsbeschreibung')?.value || '(nicht angegeben)',
+                zentrale_herausforderung: document.getElementById('zentraleHerausforderung')?.value || '(nicht angegeben)',
+                entwicklungsziel: document.getElementById('entwicklungsziel')?.value || '(nicht angegeben)'
             };
 
             // Replace variables in template
