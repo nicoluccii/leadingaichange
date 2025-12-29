@@ -1374,28 +1374,43 @@ Bitte starte jetzt mit deiner Analyse und deinem ersten Impuls.`;
         function updateSliderValue(slider) {
             const valueDisplay = slider.parentElement.querySelector('.slider-value');
             const value = parseInt(slider.value);
+            const sliderId = slider.id;
 
-            // Get color and label based on value
-            let color, label;
-            if (value <= 3) {
-                color = '#EF4444'; // Red
-                label = 'Ausbaufähig';
-            } else if (value <= 6) {
-                color = '#F59E0B'; // Orange
-                label = 'Im Aufbau';
+            // Check if this is a self-check slider (q1-q12) - only these get qualitative labels
+            const isSelfCheckSlider = /^q\d+$/.test(sliderId);
+
+            if (isSelfCheckSlider) {
+                // Get color and label based on value
+                let color, label;
+                if (value <= 3) {
+                    color = '#EF4444'; // Red
+                    label = 'Ausbaufähig';
+                } else if (value <= 6) {
+                    color = '#F59E0B'; // Orange
+                    label = 'Im Aufbau';
+                } else {
+                    color = '#10B981'; // Green
+                    label = 'Gut aufgestellt';
+                }
+
+                if (valueDisplay) {
+                    valueDisplay.innerHTML = `${value} <span style="font-size: 0.7rem; font-weight: 400; color: ${color};">· ${label}</span>`;
+                    valueDisplay.style.color = color;
+                }
+
+                // Update slider background gradient with dynamic color
+                const percent = (value / 10) * 100;
+                slider.style.background = `linear-gradient(to right, ${color} 0%, ${color} ${percent}%, #E2E8F0 ${percent}%, #E2E8F0 100%)`;
             } else {
-                color = '#10B981'; // Green
-                label = 'Gut aufgestellt';
-            }
+                // For Verortung sliders - just show the number, use Chili Red
+                if (valueDisplay) {
+                    valueDisplay.textContent = value;
+                    valueDisplay.style.color = '#FE1230';
+                }
 
-            if (valueDisplay) {
-                valueDisplay.innerHTML = `${value} <span style="font-size: 0.7rem; font-weight: 400; color: ${color};">· ${label}</span>`;
-                valueDisplay.style.color = color;
+                const percent = (value / 10) * 100;
+                slider.style.background = `linear-gradient(to right, #FE1230 0%, #FE1230 ${percent}%, #E2E8F0 ${percent}%, #E2E8F0 100%)`;
             }
-
-            // Update slider background gradient with dynamic color
-            const percent = (value / 10) * 100;
-            slider.style.background = `linear-gradient(to right, ${color} 0%, ${color} ${percent}%, #E2E8F0 ${percent}%, #E2E8F0 100%)`;
         }
 
         // Initialize all sliders
