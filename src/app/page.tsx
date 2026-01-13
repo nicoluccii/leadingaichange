@@ -1144,17 +1144,15 @@ export default function Home() {
                 </div>
               )}
 
-              {selectedMode !== 'rohdaten' && (
-                <div className="warning-box" style={{ background: 'rgba(0, 97, 247, 0.05)', borderLeftColor: 'var(--ocean-blue)' }}>
-                  <strong>✋ Human-in-the-Loop Check</strong>
-                  <p style={{ margin: '0.5rem 0 0.75rem 0', fontSize: '0.85rem' }}>Bevor du den Prompt in einen KI-Assistenten eingibst, prüfe:</p>
-                  <ol style={{ margin: 0, paddingLeft: '1.5rem', fontSize: '0.85rem' }}>
-                    <li style={{ marginBottom: '0.5rem' }}><strong>Personen raus?</strong><br />Sind Namen, Kontaktdaten oder andere Infos drin, mit denen jemand identifizierbar ist? → Anonymisieren oder streichen.</li>
-                    <li style={{ marginBottom: '0.5rem' }}><strong>Würde ich das einem Fremden zeigen?</strong><br />Stehen hier Geschäftsgeheimnisse, Strategien oder vertrauliche Zahlen drin? → Raus damit.</li>
-                    <li><strong>Sage ich später, dass KI beteiligt war?</strong><br />Wenn das Ergebnis weitergegeben wird: Sei transparent darüber, dass ein KI-Tool mitgewirkt hat.</li>
-                  </ol>
-                </div>
-              )}
+              <div className="warning-box" style={{ background: 'rgba(0, 97, 247, 0.05)', borderLeftColor: 'var(--ocean-blue)' }}>
+                <strong>✋ Human-in-the-Loop Check</strong>
+                <p style={{ margin: '0.5rem 0 0.75rem 0', fontSize: '0.85rem' }}>Bevor du {selectedMode === 'rohdaten' ? 'die Daten weitergibst' : 'den Prompt in einen KI-Assistenten eingibst'}, prüfe:</p>
+                <ol style={{ margin: 0, paddingLeft: '1.5rem', fontSize: '0.85rem' }}>
+                  <li style={{ marginBottom: '0.5rem' }}><strong>Personen raus?</strong><br />Sind Namen, Kontaktdaten oder andere Infos drin, mit denen jemand identifizierbar ist? → Anonymisieren oder streichen.</li>
+                  <li style={{ marginBottom: '0.5rem' }}><strong>Würde ich das einem Fremden zeigen?</strong><br />Stehen hier Geschäftsgeheimnisse, Strategien oder vertrauliche Zahlen drin? → Raus damit.</li>
+                  <li><strong>Sage ich später, dass KI beteiligt war?</strong><br />Wenn das Ergebnis weitergegeben wird: Sei transparent darüber, dass ein KI-Tool mitgewirkt hat.</li>
+                </ol>
+              </div>
 
               <textarea
                 id="promptOutput"
