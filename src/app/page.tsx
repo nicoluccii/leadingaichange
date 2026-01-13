@@ -44,7 +44,225 @@ const verortungLabels = {
   },
 } as const;
 
-// Master Prompt Template
+// Prompt Mode Type
+type PromptMode = 'coach' | 'impuls' | 'rohdaten';
+
+// Coach Mode Template (systemisch, fragend, prozessbegleitend)
+const coachPromptTemplate = `Du bist ein systemischer Coach im Rahmen des "Leading AI Change"-Programms.
+
+Deine Rolle ist es, durch Fragen zu führen – nicht durch Antworten. Du hilfst der Führungskraft, ihre eigene Klarheit zu finden.
+
+DEIN SKILLSET:
+Du denkst und arbeitest wie ein erfahrener Change- und Transformationsexperte
+mit tiefem Verständnis für kulturellen Wandel in Organisationen.
+
+Change & Transformation:
+- Du kennst die Dynamiken von Veränderungsprozessen und weißt, dass Wandel Zeit braucht
+- Du verstehst Widerstände als natürliche Reaktion und wertvolle Information
+- Du denkst in Stakeholder-Perspektiven und kulturellen Mustern
+- Du weißt: Kultur lässt sich nicht verordnen, sondern entsteht durch Handeln
+
+KI-Kontextualisierung:
+- Du machst Künstliche Intelligenz greifbar und verständlich
+- Du übersetzt technische Möglichkeiten in konkrete Führungssituationen
+- Du hilfst, KI weder zu überhöhen noch zu unterschätzen
+- Du verbindest die Technologie mit dem, was Menschen wirklich beschäftigt
+
+DEINE HALTUNG:
+- Du bist neugierig, nicht wissend
+- Du stellst Fragen, die neue Perspektiven eröffnen
+- Du respektierst: Die Führungskraft ist Expertin für ihr eigenes System
+- Du bietest Hypothesen an, keine Wahrheiten
+- Du siehst Widerstände als Information, nicht als Störung
+
+---
+
+=== KONTEXT AUS DEM TRAINING ===
+
+HEADLINE (Stimmung/Haltung):
+{{headline}}
+
+VERORTUNG:
+- Eigene KI-Nutzung: {{eigene_nutzung}} / 5 – {{eigene_nutzung_label}}
+- Erwartung der Organisation: {{erwartung_organisation}} / 5 – {{erwartung_organisation_label}}
+
+SELBSTCHECK (1-10):
+ICH: Veränderung {{q1}} | KI-Kompetenz {{q2}} | Selbstreflexion {{q3}}
+TEAM: Motivieren {{q4}} | Ängste adressieren {{q5}} | Empowerment {{q6}}
+STRUKTUR: Zeit {{q7}} | Routinen {{q8}} | Lernräume {{q9}}
+WISSEN: Use Cases {{q10}} | Aufgaben {{q11}} | Ethik {{q12}}
+
+ERKENNTNISSE AUS DEM AUSTAUSCH:
+{{erkenntnisse_austausch}}
+
+ENTWICKLUNGSSITUATION:
+- Beobachtung: {{situationsbeschreibung}}
+- Herausforderung: {{zentrale_herausforderung}}
+- Ziel: {{entwicklungsziel}}
+
+---
+
+DEIN EINSTIEG:
+
+Begrüße die Führungskraft kurz und wertschätzend. Gib einen knappen Überblick,
+was du in den Daten siehst (2-3 Sätze, keine vollständige Analyse).
+
+Dann biete Navigation an:
+
+"Ich sehe verschiedene Ansatzpunkte. Wir könnten zum Beispiel:
+- Tiefer in deine Selbsteinschätzung schauen
+- Die Entwicklungssituation im Team gemeinsam erkunden
+- Herausfinden, was dein erster Schritt sein könnte
+
+Wo möchtest du ansetzen?"
+
+Warte auf die Antwort, bevor du vertiefst.
+
+DEIN WEITERES VORGEHEN:
+- Maximal 30% Aussagen, mindestens 70% Fragen
+- Keine schnellen Lösungen anbieten
+- Immer erst verstehen wollen, bevor du reagierst
+- Am Ende jeder Antwort: Zusammenfassen + Fragen, ob es passt`;
+
+// Impuls Mode Template (direkt, handlungsorientiert, pragmatisch)
+const impulsPromptTemplate = `Du bist ein pragmatischer Sparringspartner im Rahmen des "Leading AI Change"-Programms.
+
+Deine Rolle ist es, schnell Orientierung zu geben und konkrete Impulse zu liefern. Du analysierst die Situation und kommst auf den Punkt.
+
+DEIN SKILLSET:
+Du denkst und arbeitest wie ein erfahrener Change- und Transformationsexperte
+mit tiefem Verständnis für kulturellen Wandel in Organisationen.
+
+Change & Transformation:
+- Du kennst die Dynamiken von Veränderungsprozessen und weißt, dass Wandel Zeit braucht
+- Du verstehst Widerstände als natürliche Reaktion und wertvolle Information
+- Du denkst in Stakeholder-Perspektiven und kulturellen Mustern
+- Du weißt: Kultur lässt sich nicht verordnen, sondern entsteht durch Handeln
+
+KI-Kontextualisierung:
+- Du machst Künstliche Intelligenz greifbar und verständlich
+- Du übersetzt technische Möglichkeiten in konkrete Führungssituationen
+- Du hilfst, KI weder zu überhöhen noch zu unterschätzen
+- Du verbindest die Technologie mit dem, was Menschen wirklich beschäftigt
+
+DEINE HALTUNG:
+- Du bist direkt und klar
+- Du gibst Orientierung, keine langen Erklärungen
+- Du denkst in nächsten Schritten, nicht in großen Plänen
+- Du sagst auch, was du kritisch siehst
+
+---
+
+=== KONTEXT AUS DEM TRAINING ===
+
+HEADLINE: {{headline}}
+
+VERORTUNG:
+- Eigene KI-Nutzung: {{eigene_nutzung}} / 5 – {{eigene_nutzung_label}}
+- Erwartung Organisation: {{erwartung_organisation}} / 5 – {{erwartung_organisation_label}}
+
+SELBSTCHECK (1-10):
+ICH: {{q1}} | {{q2}} | {{q3}}
+TEAM: {{q4}} | {{q5}} | {{q6}}
+STRUKTUR: {{q7}} | {{q8}} | {{q9}}
+WISSEN: {{q10}} | {{q11}} | {{q12}}
+
+ERKENNTNISSE: {{erkenntnisse_austausch}}
+
+SITUATION: {{situationsbeschreibung}}
+HERAUSFORDERUNG: {{zentrale_herausforderung}}
+ZIEL: {{entwicklungsziel}}
+
+---
+
+DEIN EINSTIEG:
+
+Begrüße die Führungskraft kurz. Fasse in 2-3 Sätzen zusammen, was dir auffällt
+(Muster, Stärken, Spannungsfelder – ohne zu überladen).
+
+Dann biete Navigation an:
+
+"Ich kann dir auf verschiedene Arten helfen:
+- **Quick Wins**: Konkrete Handlungsimpulse für die nächsten 7 Tage
+- **Situations-Check**: Die Teamsituation durchdenken und Hebel finden
+- **Gesprächsvorbereitung**: Ein konkretes Gespräch vorbereiten
+
+Was brauchst du gerade am meisten?"
+
+Warte auf die Antwort, bevor du loslegst.
+
+DEIN WEITERES VORGEHEN:
+- Bullet Points statt Fließtext
+- Maximal 150 Wörter pro Antwort
+- Immer mit konkretem nächsten Schritt enden
+- Bei Bedarf nachfragen: "Soll ich das vertiefen?"`;
+
+// Rohdaten Mode Template (strukturierte Übersicht)
+const rohdatenPromptTemplate = `# Meine Reflexionsdaten: Leading AI Change
+
+Erstellt am: {{datum}}
+
+---
+
+## Meine Headline
+"{{headline}}"
+
+---
+
+## Meine Verortung
+
+| Dimension | Wert | Bedeutung |
+|-----------|------|-----------|
+| Eigene KI-Nutzung | {{eigene_nutzung}} / 5 | {{eigene_nutzung_label}} |
+| Erwartung Organisation | {{erwartung_organisation}} / 5 | {{erwartung_organisation_label}} |
+
+---
+
+## Selbstcheck: Meine Führungsrolle (1-10)
+
+### ICH-Ebene
+- Umgang mit Veränderungen: {{q1}}
+- KI-Kompetenzen aufbauen: {{q2}}
+- Zeit für Weiterentwicklung: {{q3}}
+
+### ICH → TEAM
+- Team motivieren & begeistern: {{q4}}
+- Ängste & Vorbehalte adressieren: {{q5}}
+- Empowerment statt Kontrolle: {{q6}}
+
+### STRUKTUREN
+- Zeit für KI-Auseinandersetzung: {{q7}}
+- Routinen für Wissensaustausch: {{q8}}
+- Räume für Neues: {{q9}}
+
+### WISSEN & ANWENDUNG
+- Use Cases kennen: {{q10}}
+- Aufgaben für KI identifizieren: {{q11}}
+- Ethik & Richtlinien kennen: {{q12}}
+
+---
+
+## Erkenntnisse aus dem Austausch
+{{erkenntnisse_austausch}}
+
+---
+
+## Meine Entwicklungssituation
+
+**Was ich beobachte:**
+{{situationsbeschreibung}}
+
+**Die zentrale Herausforderung:**
+{{zentrale_herausforderung}}
+
+**Mein Entwicklungsziel:**
+{{entwicklungsziel}}
+
+---
+
+*Diese Daten kannst du frei verwenden – für eigene Reflexion, als Gesprächsgrundlage, oder als Input für ein KI-Tool deiner Wahl.*`;
+
+// Legacy Master Prompt Template (kept for reference)
 const masterPromptTemplate = `Du bist ein Führungsassistent im Rahmen des "Leading AI Change"-Programms.
 Deine Aufgabe ist es, Führungskräfte dabei zu unterstützen, Veränderungsenergie
 für KI in ihrem Team zu entwickeln – basierend auf ihrer individuellen Situation.
@@ -277,6 +495,7 @@ export default function Home() {
   const [showResetModal, setShowResetModal] = useState(false);
   const [copyButtonState, setCopyButtonState] = useState<'default' | 'copied'>('default');
   const [logoError, setLogoError] = useState(false);
+  const [selectedMode, setSelectedMode] = useState<PromptMode | null>(null);
   const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Load from localStorage on mount
@@ -338,12 +557,39 @@ export default function Home() {
     }
   };
 
-  // Generate prompt
-  const generatePrompt = () => {
+  // Generate prompt based on selected mode
+  const generatePrompt = (mode: PromptMode) => {
     const eigeneNutzungLabel = verortungLabels.eigeneNutzung[formData.eigeneNutzung as keyof typeof verortungLabels.eigeneNutzung];
     const erwartungOrgLabel = verortungLabels.erwartungOrganisation[formData.erwartungOrganisation as keyof typeof verortungLabels.erwartungOrganisation];
 
-    let prompt = masterPromptTemplate
+    // Select template based on mode
+    let template: string;
+    switch (mode) {
+      case 'coach':
+        template = coachPromptTemplate;
+        break;
+      case 'impuls':
+        template = impulsPromptTemplate;
+        break;
+      case 'rohdaten':
+        template = rohdatenPromptTemplate;
+        break;
+      default:
+        template = coachPromptTemplate;
+    }
+
+    // Create current date for rohdaten mode
+    const now = new Date();
+    const datum = now.toLocaleDateString('de-DE', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+
+    let prompt = template
+      .replace('{{datum}}', datum)
       .replace('{{headline}}', formData.headline || '(nicht angegeben)')
       .replace('{{eigene_nutzung}}', String(formData.eigeneNutzung))
       .replace('{{eigene_nutzung_label}}', eigeneNutzungLabel)
@@ -366,6 +612,7 @@ export default function Home() {
       .replace('{{zentrale_herausforderung}}', formData.zentraleHerausforderung || '(nicht angegeben)')
       .replace('{{entwicklungsziel}}', formData.entwicklungsziel || '(nicht angegeben)');
 
+    setSelectedMode(mode);
     setPromptOutput(prompt);
     setCurrentStep(6);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -410,6 +657,7 @@ export default function Home() {
     setCurrentStep(1);
     setShowResetModal(false);
     setPromptOutput('');
+    setSelectedMode(null);
   };
 
   // Get slider display for self-check sliders
@@ -810,9 +1058,58 @@ export default function Home() {
                 />
               </div>
 
-              <div className="btn-container">
+              <div style={{ marginTop: '2.5rem', paddingTop: '2rem', borderTop: '1px solid var(--border-light)' }}>
+                <h3 style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: '0.5rem', color: 'var(--text-dark)' }}>
+                  Wähle deinen Modus
+                </h3>
+                <p style={{ color: 'var(--text-medium)', marginBottom: '1.5rem', fontSize: '0.95rem' }}>
+                  Wie möchtest du mit deinen Reflexionen weiterarbeiten?
+                </p>
+
+                <div className="mode-selection">
+                  <button
+                    className="mode-card"
+                    onClick={() => generatePrompt('coach')}
+                  >
+                    <span className="mode-icon">🪞</span>
+                    <span className="mode-title">Coach-Modus</span>
+                    <span className="mode-description">
+                      Für Vertiefung und Reflexion. Die KI begleitet dich mit Fragen,
+                      die neue Perspektiven eröffnen.
+                    </span>
+                    <span className="mode-hint">Gut, wenn du sortieren und tiefer verstehen willst.</span>
+                  </button>
+
+                  <button
+                    className="mode-card"
+                    onClick={() => generatePrompt('impuls')}
+                  >
+                    <span className="mode-icon">⚡</span>
+                    <span className="mode-title">Impuls-Modus</span>
+                    <span className="mode-description">
+                      Für schnelle Orientierung. Die KI gibt dir einen Überblick
+                      und konkrete Handlungsimpulse.
+                    </span>
+                    <span className="mode-hint">Gut, wenn du direkt ins Tun kommen willst.</span>
+                  </button>
+
+                  <button
+                    className="mode-card mode-card-secondary"
+                    onClick={() => generatePrompt('rohdaten')}
+                  >
+                    <span className="mode-icon">📊</span>
+                    <span className="mode-title">Meine Rohdaten</span>
+                    <span className="mode-description">
+                      Deine gesammelten Daten – strukturiert und übersichtlich.
+                    </span>
+                    <span className="mode-hint">Für eigene Notizen, Gespräche oder freie KI-Nutzung.</span>
+                  </button>
+                </div>
+              </div>
+
+              <div className="btn-container" style={{ marginTop: '1.5rem' }}>
                 <button className="btn btn-secondary" onClick={prevStep}>← Zurück</button>
-                <button className="btn btn-primary" onClick={generatePrompt}>Prompt generieren →</button>
+                <div></div>
               </div>
             </div>
           </section>
@@ -822,23 +1119,42 @@ export default function Home() {
         {currentStep === 6 && (
           <section className="step-section active">
             <div className="card">
-              <h2 className="card-title">Dein persönlicher Führungsassistent</h2>
-              <p className="card-subtitle">Kopiere diesen Prompt und füge ihn in deinen KI-Assistenten ein.</p>
-
-              <div className="help-box">
-                <div className="help-box-title">💡 Tipp</div>
-                <p>Du kannst den Prompt vor dem Kopieren noch anpassen.</p>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
+                <span style={{ fontSize: '1.75rem' }}>
+                  {selectedMode === 'coach' && '🪞'}
+                  {selectedMode === 'impuls' && '⚡'}
+                  {selectedMode === 'rohdaten' && '📊'}
+                </span>
+                <h2 className="card-title" style={{ marginBottom: 0 }}>
+                  {selectedMode === 'coach' && 'Coach-Modus'}
+                  {selectedMode === 'impuls' && 'Impuls-Modus'}
+                  {selectedMode === 'rohdaten' && 'Meine Rohdaten'}
+                </h2>
               </div>
+              <p className="card-subtitle">
+                {selectedMode === 'rohdaten'
+                  ? 'Deine strukturierten Reflexionsdaten – zum Speichern oder Weiterverwenden.'
+                  : 'Kopiere diesen Prompt und füge ihn in deinen KI-Assistenten ein.'}
+              </p>
 
-              <div className="warning-box" style={{ background: 'rgba(0, 97, 247, 0.05)', borderLeftColor: 'var(--ocean-blue)' }}>
-                <strong>✋ Human-in-the-Loop Check</strong>
-                <p style={{ margin: '0.5rem 0 0.75rem 0', fontSize: '0.85rem' }}>Bevor du den Prompt in einen KI-Assistenten eingibst, prüfe:</p>
-                <ol style={{ margin: 0, paddingLeft: '1.5rem', fontSize: '0.85rem' }}>
-                  <li style={{ marginBottom: '0.5rem' }}><strong>Personen raus?</strong><br />Sind Namen, Kontaktdaten oder andere Infos drin, mit denen jemand identifizierbar ist? → Anonymisieren oder streichen.</li>
-                  <li style={{ marginBottom: '0.5rem' }}><strong>Würde ich das einem Fremden zeigen?</strong><br />Stehen hier Geschäftsgeheimnisse, Strategien oder vertrauliche Zahlen drin? → Raus damit.</li>
-                  <li><strong>Sage ich später, dass KI beteiligt war?</strong><br />Wenn das Ergebnis weitergegeben wird: Sei transparent darüber, dass ein KI-Tool mitgewirkt hat.</li>
-                </ol>
-              </div>
+              {selectedMode !== 'rohdaten' && (
+                <div className="help-box">
+                  <div className="help-box-title">💡 Tipp</div>
+                  <p>Du kannst den Prompt vor dem Kopieren noch anpassen.</p>
+                </div>
+              )}
+
+              {selectedMode !== 'rohdaten' && (
+                <div className="warning-box" style={{ background: 'rgba(0, 97, 247, 0.05)', borderLeftColor: 'var(--ocean-blue)' }}>
+                  <strong>✋ Human-in-the-Loop Check</strong>
+                  <p style={{ margin: '0.5rem 0 0.75rem 0', fontSize: '0.85rem' }}>Bevor du den Prompt in einen KI-Assistenten eingibst, prüfe:</p>
+                  <ol style={{ margin: 0, paddingLeft: '1.5rem', fontSize: '0.85rem' }}>
+                    <li style={{ marginBottom: '0.5rem' }}><strong>Personen raus?</strong><br />Sind Namen, Kontaktdaten oder andere Infos drin, mit denen jemand identifizierbar ist? → Anonymisieren oder streichen.</li>
+                    <li style={{ marginBottom: '0.5rem' }}><strong>Würde ich das einem Fremden zeigen?</strong><br />Stehen hier Geschäftsgeheimnisse, Strategien oder vertrauliche Zahlen drin? → Raus damit.</li>
+                    <li><strong>Sage ich später, dass KI beteiligt war?</strong><br />Wenn das Ergebnis weitergegeben wird: Sei transparent darüber, dass ein KI-Tool mitgewirkt hat.</li>
+                  </ol>
+                </div>
+              )}
 
               <textarea
                 id="promptOutput"
