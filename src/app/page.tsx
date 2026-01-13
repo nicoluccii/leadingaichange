@@ -496,6 +496,7 @@ export default function Home() {
   const [copyButtonState, setCopyButtonState] = useState<'default' | 'copied'>('default');
   const [logoError, setLogoError] = useState(false);
   const [selectedMode, setSelectedMode] = useState<PromptMode | null>(null);
+  const [showCopyModal, setShowCopyModal] = useState(false);
   const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Load from localStorage on mount
@@ -623,6 +624,7 @@ export default function Home() {
     try {
       await navigator.clipboard.writeText(promptOutput);
       setCopyButtonState('copied');
+      setShowCopyModal(true);
       setTimeout(() => setCopyButtonState('default'), 3000);
     } catch {
       // Fallback
@@ -633,6 +635,7 @@ export default function Home() {
       document.execCommand('copy');
       document.body.removeChild(textarea);
       setCopyButtonState('copied');
+      setShowCopyModal(true);
       setTimeout(() => setCopyButtonState('default'), 3000);
     }
   };
@@ -648,6 +651,7 @@ export default function Home() {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+    setShowCopyModal(true);
   };
 
   // Reset all
@@ -1244,6 +1248,26 @@ export default function Home() {
             <div className="modal-buttons">
               <button className="btn btn-outline" onClick={() => setShowResetModal(false)}>Abbrechen</button>
               <button className="btn btn-primary" onClick={resetAll}>Ja, zurücksetzen</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Copy Success Modal */}
+      {showCopyModal && (
+        <div className="modal-overlay show" onClick={e => e.target === e.currentTarget && setShowCopyModal(false)}>
+          <div className="modal" style={{ maxWidth: '480px' }}>
+            <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>✓</div>
+            <h3 className="modal-title" style={{ color: 'var(--chili-red)' }}>Du übernimmst ab hier die Verantwortung.</h3>
+            <p className="modal-text" style={{ textAlign: 'left', lineHeight: '1.7' }}>
+              KI-Ergebnisse sind nie zu 100% vorhersehbar. Was du bekommst, hängt stark davon ab, wie du weiterarbeitest – nachfragst, präzisierst, hinterfragst.
+              <br /><br />
+              <strong>Nutze die Outputs als Denkanstoß, nicht als fertige Lösung.</strong>
+              <br />
+              Du entscheidest, was du daraus machst.
+            </p>
+            <div className="modal-buttons">
+              <button className="btn btn-primary" onClick={() => setShowCopyModal(false)}>Verstanden</button>
             </div>
           </div>
         </div>
