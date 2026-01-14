@@ -1255,12 +1255,10 @@ export default function Home() {
       <footer className="footer">
         <div className="footer-grid">
           <div className="footer-col">
-            <h4>Webseite</h4>
-            <a href="https://www.chili-and-change.de" target="_blank" rel="noopener noreferrer">www.chili-and-change.de</a>
-          </div>
-          <div className="footer-col">
-            <h4>Newsletter</h4>
-            <a href="https://t9dd5820b.emailsys1a.net/204/693/1ffdc28d7b/subscribe/form.html?_g=1762792068" target="_blank" rel="noopener noreferrer">Jetzt abonnieren</a>
+            <h4>Chili and Change</h4>
+            <a href="https://www.chili-and-change.de" target="_blank" rel="noopener noreferrer">Webseite</a>
+            <span style={{ margin: '0 0.5rem', color: 'var(--text-light)' }}>·</span>
+            <a href="https://t9dd5820b.emailsys1a.net/204/693/1ffdc28d7b/subscribe/form.html?_g=1762792068" target="_blank" rel="noopener noreferrer">Newsletter</a>
           </div>
           <div className="footer-col">
             <h4>🇪🇺 EU AI Act</h4>
