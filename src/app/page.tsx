@@ -48,9 +48,11 @@ const verortungLabels = {
 type PromptMode = 'coach' | 'impuls' | 'rohdaten';
 
 // Coach Mode Template (systemisch, fragend, prozessbegleitend)
-const coachPromptTemplate = `Du bist ein systemischer Coach im Rahmen des "Leading AI Change"-Programms.
+const coachPromptTemplate = `Hallo, ich bin dein KI-Coach für das "Leading AI Change"-Programm.
 
-Deine Rolle ist es, durch Fragen zu führen – nicht durch Antworten. Du hilfst der Führungskraft, ihre eigene Klarheit zu finden.
+Ich bin eine Künstliche Intelligenz und unterstütze dich dabei, deine Gedanken
+zu sortieren und neue Perspektiven zu entwickeln. Ich ersetze keine echten
+Gespräche, kein Coaching durch Menschen und keine Beratung.
 
 DEIN SKILLSET:
 Du denkst und arbeitest wie ein erfahrener Change- und Transformationsexperte
@@ -71,9 +73,19 @@ KI-Kontextualisierung:
 DEINE HALTUNG:
 - Du bist neugierig, nicht wissend
 - Du stellst Fragen, die neue Perspektiven eröffnen
-- Du respektierst: Die Führungskraft ist Expertin für ihr eigenes System
+- Du respektierst: Die Führungskraft ist Expert:in für ihr eigenes System
 - Du bietest Hypothesen an, keine Wahrheiten
 - Du siehst Widerstände als Information, nicht als Störung
+
+KLARE GRENZEN:
+- Du führst KEINE psychologische Analyse oder Bewertung des emotionalen
+  Zustands von Teammitgliedern durch
+- Du interpretierst Widerstände NICHT als emotionale Instabilität,
+  sondern bleibst auf der sachlichen Ebene von Rollen und Prozessen
+- Du gibst KEINE Einschätzungen über die Persönlichkeit einzelner
+  Teammitglieder ab
+- Wenn KI-Nutzung im Team erwähnt wird, weist du auf die Einhaltung von
+  Unternehmensrichtlinien und DSGVO hin
 
 ---
 
@@ -125,9 +137,11 @@ DEIN WEITERES VORGEHEN:
 - Am Ende jeder Antwort: Zusammenfassen + Fragen, ob es passt`;
 
 // Impuls Mode Template (direkt, handlungsorientiert, pragmatisch)
-const impulsPromptTemplate = `Du bist ein pragmatischer Sparringspartner im Rahmen des "Leading AI Change"-Programms.
+const impulsPromptTemplate = `Hallo, ich bin dein KI-Sparringspartner für das "Leading AI Change"-Programm.
 
-Deine Rolle ist es, schnell Orientierung zu geben und konkrete Impulse zu liefern. Du analysierst die Situation und kommst auf den Punkt.
+Ich bin eine Künstliche Intelligenz und gebe dir Impulse und Orientierung.
+Meine Vorschläge sind Denkanstöße – die Entscheidung, was du daraus machst,
+liegt bei dir.
 
 DEIN SKILLSET:
 Du denkst und arbeitest wie ein erfahrener Change- und Transformationsexperte
@@ -150,6 +164,16 @@ DEINE HALTUNG:
 - Du gibst Orientierung, keine langen Erklärungen
 - Du denkst in nächsten Schritten, nicht in großen Plänen
 - Du sagst auch, was du kritisch siehst
+
+KLARE GRENZEN:
+- Du führst KEINE psychologische Analyse oder Bewertung des emotionalen
+  Zustands von Teammitgliedern durch
+- Du interpretierst Widerstände NICHT als emotionale Instabilität,
+  sondern bleibst auf der sachlichen Ebene von Rollen und Prozessen
+- Du gibst KEINE Einschätzungen über die Persönlichkeit einzelner
+  Teammitglieder ab
+- Wenn KI-Nutzung im Team erwähnt wird, weist du auf die Einhaltung von
+  Unternehmensrichtlinien und DSGVO hin
 
 ---
 
@@ -496,7 +520,8 @@ export default function Home() {
   const [copyButtonState, setCopyButtonState] = useState<'default' | 'copied'>('default');
   const [logoError, setLogoError] = useState(false);
   const [selectedMode, setSelectedMode] = useState<PromptMode | null>(null);
-  const [showCopyModal, setShowCopyModal] = useState(false);
+  const [showResponsibilityModal, setShowResponsibilityModal] = useState(false);
+  const [pendingMode, setPendingMode] = useState<PromptMode | null>(null);
   const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Load from localStorage on mount
@@ -558,14 +583,22 @@ export default function Home() {
     }
   };
 
-  // Generate prompt based on selected mode
-  const generatePrompt = (mode: PromptMode) => {
+  // Show responsibility modal before generating prompt
+  const handleModeSelect = (mode: PromptMode) => {
+    setPendingMode(mode);
+    setShowResponsibilityModal(true);
+  };
+
+  // Generate prompt and copy to clipboard after user confirms
+  const confirmAndGenerate = async () => {
+    if (!pendingMode) return;
+
     const eigeneNutzungLabel = verortungLabels.eigeneNutzung[formData.eigeneNutzung as keyof typeof verortungLabels.eigeneNutzung];
     const erwartungOrgLabel = verortungLabels.erwartungOrganisation[formData.erwartungOrganisation as keyof typeof verortungLabels.erwartungOrganisation];
 
     // Select template based on mode
     let template: string;
-    switch (mode) {
+    switch (pendingMode) {
       case 'coach':
         template = coachPromptTemplate;
         break;
@@ -589,7 +622,7 @@ export default function Home() {
       minute: '2-digit'
     });
 
-    let prompt = template
+    const prompt = template
       .replace('{{datum}}', datum)
       .replace('{{headline}}', formData.headline || '(nicht angegeben)')
       .replace('{{eigene_nutzung}}', String(formData.eigeneNutzung))
@@ -613,18 +646,34 @@ export default function Home() {
       .replace('{{zentrale_herausforderung}}', formData.zentraleHerausforderung || '(nicht angegeben)')
       .replace('{{entwicklungsziel}}', formData.entwicklungsziel || '(nicht angegeben)');
 
-    setSelectedMode(mode);
+    // Copy to clipboard
+    try {
+      await navigator.clipboard.writeText(prompt);
+    } catch {
+      // Fallback
+      const textarea = document.createElement('textarea');
+      textarea.value = prompt;
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+    }
+
+    setSelectedMode(pendingMode);
     setPromptOutput(prompt);
+    setShowResponsibilityModal(false);
+    setPendingMode(null);
+    setCopyButtonState('copied');
+    setTimeout(() => setCopyButtonState('default'), 3000);
     setCurrentStep(6);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Copy prompt
+  // Copy prompt (for re-copying from step 6)
   const copyPrompt = async () => {
     try {
       await navigator.clipboard.writeText(promptOutput);
       setCopyButtonState('copied');
-      setShowCopyModal(true);
       setTimeout(() => setCopyButtonState('default'), 3000);
     } catch {
       // Fallback
@@ -635,7 +684,6 @@ export default function Home() {
       document.execCommand('copy');
       document.body.removeChild(textarea);
       setCopyButtonState('copied');
-      setShowCopyModal(true);
       setTimeout(() => setCopyButtonState('default'), 3000);
     }
   };
@@ -651,7 +699,6 @@ export default function Home() {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    setShowCopyModal(true);
   };
 
   // Reset all
@@ -1073,38 +1120,36 @@ export default function Home() {
                 <div className="mode-selection">
                   <button
                     className="mode-card"
-                    onClick={() => generatePrompt('coach')}
+                    onClick={() => handleModeSelect('coach')}
                   >
                     <span className="mode-icon">🪞</span>
                     <span className="mode-title">Coach-Modus</span>
                     <span className="mode-description">
-                      Für Vertiefung und Reflexion. Die KI begleitet dich mit Fragen,
-                      die neue Perspektiven eröffnen.
+                      Reflexion & Vertiefung – fragend, systemisch
                     </span>
                     <span className="mode-hint">Gut, wenn du sortieren und tiefer verstehen willst.</span>
                   </button>
 
                   <button
                     className="mode-card"
-                    onClick={() => generatePrompt('impuls')}
+                    onClick={() => handleModeSelect('impuls')}
                   >
                     <span className="mode-icon">⚡</span>
                     <span className="mode-title">Impuls-Modus</span>
                     <span className="mode-description">
-                      Für schnelle Orientierung. Die KI gibt dir einen Überblick
-                      und konkrete Handlungsimpulse.
+                      Schnelle Orientierung – direkt, handlungsorientiert
                     </span>
                     <span className="mode-hint">Gut, wenn du direkt ins Tun kommen willst.</span>
                   </button>
 
                   <button
                     className="mode-card mode-card-secondary"
-                    onClick={() => generatePrompt('rohdaten')}
+                    onClick={() => handleModeSelect('rohdaten')}
                   >
                     <span className="mode-icon">📊</span>
                     <span className="mode-title">Meine Rohdaten</span>
                     <span className="mode-description">
-                      Deine gesammelten Daten – strukturiert und übersichtlich.
+                      Nur die Daten – für eigene Nutzung
                     </span>
                     <span className="mode-hint">Für eigene Notizen, Gespräche oder freie KI-Nutzung.</span>
                   </button>
@@ -1253,21 +1298,34 @@ export default function Home() {
         </div>
       )}
 
-      {/* Copy Success Modal */}
-      {showCopyModal && (
-        <div className="modal-overlay show" onClick={e => e.target === e.currentTarget && setShowCopyModal(false)}>
-          <div className="modal" style={{ maxWidth: '480px' }}>
-            <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>✓</div>
-            <h3 className="modal-title" style={{ color: 'var(--chili-red)' }}>Du übernimmst ab hier die Verantwortung.</h3>
-            <p className="modal-text" style={{ textAlign: 'left', lineHeight: '1.7' }}>
-              KI-Ergebnisse sind nie zu 100% vorhersehbar. Was du bekommst, hängt stark davon ab, wie du weiterarbeitest – nachfragst, präzisierst, hinterfragst.
-              <br /><br />
-              <strong>Nutze die Outputs als Denkanstoß, nicht als fertige Lösung.</strong>
-              <br />
-              Du entscheidest, was du daraus machst.
-            </p>
-            <div className="modal-buttons">
-              <button className="btn btn-primary" onClick={() => setShowCopyModal(false)}>Verstanden</button>
+      {/* Responsibility Modal - appears BEFORE copying */}
+      {showResponsibilityModal && (
+        <div className="modal-overlay show">
+          <div className="modal" style={{ maxWidth: '520px', textAlign: 'left' }}>
+            <h3 className="modal-title" style={{ color: 'var(--chili-red)', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
+              <span>⚠️</span> Bevor du loslegst
+            </h3>
+            <div style={{ marginTop: '1.25rem', marginBottom: '1.5rem' }}>
+              <p style={{ fontWeight: 600, color: 'var(--text-dark)', marginBottom: '1rem' }}>
+                Ab hier liegt die Verantwortung bei dir.
+              </p>
+              <ul style={{ margin: 0, paddingLeft: '1.25rem', color: 'var(--text-medium)', lineHeight: '1.8' }}>
+                <li>KI-Ergebnisse sind nie zu 100% vorhersehbar</li>
+                <li>Die Qualität hängt davon ab, wie du weiterarbeitest – nachfragst, präzisierst, kritisch prüfst</li>
+                <li>Nutze die Outputs als Denkanstoß, nicht als fertige Lösung</li>
+                <li>Gib keine sensiblen personenbezogenen Daten ein</li>
+              </ul>
+              <p style={{ marginTop: '1rem', fontSize: '0.85rem', color: 'var(--text-light)', fontStyle: 'italic' }}>
+                Dieses Gespräch wird nicht gespeichert, protokolliert oder für andere Zwecke verwendet.
+              </p>
+            </div>
+            <div className="modal-buttons" style={{ justifyContent: 'center' }}>
+              <button className="btn btn-outline" onClick={() => { setShowResponsibilityModal(false); setPendingMode(null); }}>
+                Abbrechen
+              </button>
+              <button className="btn btn-primary" onClick={confirmAndGenerate}>
+                ✓ Verstanden – Prompt kopieren
+              </button>
             </div>
           </div>
         </div>
