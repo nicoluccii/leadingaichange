@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Trainer-Briefing: KI-Training Steckbrief</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Calibri, Arial, sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      line-height: 1.6;
+      color: #333;
+    }
+    h1 {
+      color: #FE1230;
+      border-bottom: 3px solid #FE1230;
+      padding-bottom: 10px;
+    }
+    h2 {
+      color: #0061F7;
+      margin-top: 40px;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 5px;
+    }
+    h3 {
+      color: #444;
+      margin-top: 25px;
+    }
+    .hint {
+      background: #f5f5f5;
+      padding: 10px 15px;
+      border-left: 4px solid #0061F7;
+      margin: 10px 0;
+      font-size: 0.9em;
+      color: #666;
+    }
+    .input-field {
+      border: 1px solid #ccc;
+      padding: 12px;
+      margin: 10px 0;
+      min-height: 40px;
+      background: #fafafa;
+    }
+    .input-field-large {
+      border: 1px solid #ccc;
+      padding: 12px;
+      margin: 10px 0;
+      min-height: 100px;
+      background: #fafafa;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background: #f0f0f0;
+    }
+    .checkbox-group {
+      margin: 10px 0;
+    }
+    .checkbox-group label {
+      display: block;
+      padding: 5px 0;
+    }
+    .fixed-box {
+      background: #e8f4e8;
+      border: 1px solid #4CAF50;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+    }
+    .fixed-box h4 {
+      margin-top: 0;
+      color: #2E7D32;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #ddd;
+      margin: 30px 0;
+    }
+    .page-break {
+      page-break-before: always;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Trainer-Briefing: KI-Training Steckbrief</h1>
+
+<div class="hint">
+  <strong>Anleitung:</strong> Bitte diesen Steckbrief vollständig ausfüllen. Die Informationen dienen als Grundlage für die Programmierung des interaktiven Begleit-Tools für dein Training. Alles, was du hier einträgst, wird später im Tool erscheinen.
+</div>
+
+<hr>
+
+<h2>1. Allgemeine Informationen</h2>
+
+<h3>Training-Titel</h3>
+<p class="hint">Wie heißt das Training? Dieser Titel erscheint auf der Willkommensseite.</p>
+<div class="input-field"></div>
+
+<h3>Kurzbeschreibung</h3>
+<p class="hint">In 2-3 Sätzen: Worum geht es in diesem Training?</p>
+<div class="input-field-large"></div>
+
+<h3>Zielgruppe</h3>
+<p class="hint">Wer nimmt an diesem Training teil? (z.B. Führungskräfte, Teams, Fachbereiche)</p>
+<div class="input-field"></div>
+
+<h3>Trainer/Verantwortlich</h3>
+<table>
+  <tr><td width="120"><strong>Name:</strong></td><td></td></tr>
+  <tr><td><strong>E-Mail:</strong></td><td></td></tr>
+</table>
+
+<hr>
+
+<h2>2. Lernziele</h2>
+<p class="hint">Was sollen die Teilnehmenden am Ende des Trainings erreicht haben? (3-5 Punkte)</p>
+
+<table>
+  <tr><td width="30">1.</td><td></td></tr>
+  <tr><td>2.</td><td></td></tr>
+  <tr><td>3.</td><td></td></tr>
+  <tr><td>4.</td><td>(optional)</td></tr>
+  <tr><td>5.</td><td>(optional)</td></tr>
+</table>
+
+<hr>
+
+<h2>3. Struktur des Tools</h2>
+
+<p class="hint">Das Tool besteht aus mehreren Schritten, die die Teilnehmenden durchlaufen. Die Schritte 1 (Willkommen) und letzter (Prompt-Ausgabe) sind fix. Die Schritte dazwischen gestaltest du.</p>
+
+<h3>Anzahl der Zwischen-Schritte (ohne Willkommen & Prompt-Ausgabe)</h3>
+<div class="input-field" style="width: 100px;"></div>
+
+<h3>Übersicht der Schritte</h3>
+<table>
+  <tr>
+    <th width="80">Schritt</th>
+    <th width="200">Titel</th>
+    <th>Kurzbeschreibung</th>
+  </tr>
+  <tr><td>1</td><td><em>Willkommen (fix)</em></td><td><em>wird automatisch generiert</em></td></tr>
+  <tr><td>2</td><td></td><td></td></tr>
+  <tr><td>3</td><td></td><td></td></tr>
+  <tr><td>4</td><td></td><td></td></tr>
+  <tr><td>5</td><td></td><td></td></tr>
+  <tr><td>...</td><td></td><td></td></tr>
+  <tr><td>Letzter</td><td><em>Prompt-Ausgabe (fix)</em></td><td><em>drei Modi: Coach, Impuls, Rohdaten</em></td></tr>
+</table>
+
+<hr>
+
+<h2>4. Verfügbare Element-Typen</h2>
+
+<table>
+  <tr>
+    <th>Typ</th>
+    <th>Beschreibung</th>
+    <th>Beispiel</th>
+  </tr>
+  <tr>
+    <td><strong>Slider (0-10)</strong></td>
+    <td>Selbsteinschätzung auf Skala</td>
+    <td>"Wie sicher fühlst du dich?"</td>
+  </tr>
+  <tr>
+    <td><strong>Verortungs-Skala (1-5)</strong></td>
+    <td>Positionierung mit beschrifteten Stufen</td>
+    <td>"1=Gar nicht ... 5=Gestaltend"</td>
+  </tr>
+  <tr>
+    <td><strong>Freitext (kurz)</strong></td>
+    <td>Einzeiliges Eingabefeld</td>
+    <td>"Deine Headline"</td>
+  </tr>
+  <tr>
+    <td><strong>Freitext (lang)</strong></td>
+    <td>Mehrzeiliges Textfeld</td>
+    <td>"Beschreibe deine Situation"</td>
+  </tr>
+  <tr>
+    <td><strong>Info-Box</strong></td>
+    <td>Nur Text, keine Eingabe</td>
+    <td>Hinweise, Tipps, Erklärungen</td>
+  </tr>
+</table>
+
+<div class="page-break"></div>
+
+<h2>5. Elemente pro Schritt</h2>
+
+<h3>Schritt 2: <span style="border-bottom: 1px solid #333; display: inline-block; width: 300px;">&nbsp;</span></h3>
+
+<table>
+  <tr>
+    <td width="120"><strong>Element 1</strong></td>
+    <td colspan="2"></td>
+  </tr>
+  <tr>
+    <td>Typ:</td>
+    <td colspan="2">
+      &#9744; Slider (0-10) &nbsp;&nbsp;
+      &#9744; Verortungs-Skala &nbsp;&nbsp;
+      &#9744; Freitext (kurz) &nbsp;&nbsp;
+      &#9744; Freitext (lang) &nbsp;&nbsp;
+      &#9744; Info-Box
+    </td>
+  </tr>
+  <tr>
+    <td>Titel/Frage:</td>
+    <td colspan="2"></td>
+  </tr>
+  <tr>
+    <td>Hinweistext:</td>
+    <td colspan="2"></td>
+  </tr>
+  <tr>
+    <td>Kategorie:</td>
+    <td colspan="2"><em>(nur bei Slider)</em></td>
+  </tr>
+</table>
+
+<p><strong>Bei Verortungs-Skala (1-5) alle Stufen beschreiben:</strong></p>
+<table>
+  <tr><td width="80">Stufe 1:</td><td></td></tr>
+  <tr><td>Stufe 2:</td><td></td></tr>
+  <tr><td>Stufe 3:</td><td></td></tr>
+  <tr><td>Stufe 4:</td><td></td></tr>
+  <tr><td>Stufe 5:</td><td></td></tr>
+</table>
+
+<br>
+
+<table>
+  <tr>
+    <td width="120"><strong>Element 2</strong></td>
+    <td colspan="2"></td>
+  </tr>
+  <tr>
+    <td>Typ:</td>
+    <td colspan="2">
+      &#9744; Slider (0-10) &nbsp;&nbsp;
+      &#9744; Verortungs-Skala &nbsp;&nbsp;
+      &#9744; Freitext (kurz) &nbsp;&nbsp;
+      &#9744; Freitext (lang) &nbsp;&nbsp;
+      &#9744; Info-Box
+    </td>
+  </tr>
+  <tr>
+    <td>Titel/Frage:</td>
+    <td colspan="2"></td>
+  </tr>
+  <tr>
+    <td>Hinweistext:</td>
+    <td colspan="2"></td>
+  </tr>
+</table>
+
+<br>
+
+<table>
+  <tr>
+    <td width="120"><strong>Element 3</strong></td>
+    <td colspan="2"></td>
+  </tr>
+  <tr>
+    <td>Typ:</td>
+    <td colspan="2">
+      &#9744; Slider (0-10) &nbsp;&nbsp;
+      &#9744; Verortungs-Skala &nbsp;&nbsp;
+      &#9744; Freitext (kurz) &nbsp;&nbsp;
+      &#9744; Freitext (lang) &nbsp;&nbsp;
+      &#9744; Info-Box
+    </td>
+  </tr>
+  <tr>
+    <td>Titel/Frage:</td>
+    <td colspan="2"></td>
+  </tr>
+  <tr>
+    <td>Hinweistext:</td>
+    <td colspan="2"></td>
+  </tr>
+</table>
+
+<hr>
+
+<h3>Schritt 3: <span style="border-bottom: 1px solid #333; display: inline-block; width: 300px;">&nbsp;</span></h3>
+
+<table>
+  <tr>
+    <td width="120"><strong>Element 1</strong></td>
+    <td colspan="2"></td>
+  </tr>
+  <tr>
+    <td>Typ:</td>
+    <td colspan="2">
+      &#9744; Slider (0-10) &nbsp;&nbsp;
+      &#9744; Verortungs-Skala &nbsp;&nbsp;
+      &#9744; Freitext (kurz) &nbsp;&nbsp;
+      &#9744; Freitext (lang) &nbsp;&nbsp;
+      &#9744; Info-Box
+    </td>
+  </tr>
+  <tr>
+    <td>Titel/Frage:</td>
+    <td colspan="2"></td>
+  </tr>
+  <tr>
+    <td>Hinweistext:</td>
+    <td colspan="2"></td>
+  </tr>
+</table>
+
+<br>
+
+<table>
+  <tr>
+    <td width="120"><strong>Element 2</strong></td>
+    <td colspan="2"></td>
+  </tr>
+  <tr>
+    <td>Typ:</td>
+    <td colspan="2">
+      &#9744; Slider (0-10) &nbsp;&nbsp;
+      &#9744; Verortungs-Skala &nbsp;&nbsp;
+      &#9744; Freitext (kurz) &nbsp;&nbsp;
+      &#9744; Freitext (lang) &nbsp;&nbsp;
+      &#9744; Info-Box
+    </td>
+  </tr>
+  <tr>
+    <td>Titel/Frage:</td>
+    <td colspan="2"></td>
+  </tr>
+  <tr>
+    <td>Hinweistext:</td>
+    <td colspan="2"></td>
+  </tr>
+</table>
+
+<hr>
+
+<h3>Schritt 4: <span style="border-bottom: 1px solid #333; display: inline-block; width: 300px;">&nbsp;</span></h3>
+
+<p><em>(Gleiche Struktur wie oben - bei Bedarf in Word kopieren)</em></p>
+
+<hr>
+
+<h3>Schritt 5: <span style="border-bottom: 1px solid #333; display: inline-block; width: 300px;">&nbsp;</span></h3>
+
+<p><em>(Gleiche Struktur wie oben - bei Bedarf in Word kopieren)</em></p>
+
+<div class="page-break"></div>
+
+<h2>6. Selbstcheck-Fragen (falls vorhanden)</h2>
+
+<p class="hint">Wenn dein Training einen Selbstcheck mit mehreren Fragen enthält, trage diese hier ein. Die Fragen werden als Slider (0-10) dargestellt und können in Kategorien gruppiert werden.</p>
+
+<h3>Soll es einen Selbstcheck geben?</h3>
+<p>&#9744; Ja &nbsp;&nbsp;&nbsp; &#9744; Nein</p>
+
+<h3>Selbstcheck-Kategorien und Fragen</h3>
+
+<table>
+  <tr>
+    <th colspan="2">Kategorie 1: <span style="border-bottom: 1px solid #333; display: inline-block; width: 200px;">&nbsp;</span></th>
+  </tr>
+  <tr><td width="80">Frage 1.1:</td><td></td></tr>
+  <tr><td>Frage 1.2:</td><td></td></tr>
+  <tr><td>Frage 1.3:</td><td></td></tr>
+</table>
+
+<br>
+
+<table>
+  <tr>
+    <th colspan="2">Kategorie 2: <span style="border-bottom: 1px solid #333; display: inline-block; width: 200px;">&nbsp;</span></th>
+  </tr>
+  <tr><td width="80">Frage 2.1:</td><td></td></tr>
+  <tr><td>Frage 2.2:</td><td></td></tr>
+  <tr><td>Frage 2.3:</td><td></td></tr>
+</table>
+
+<br>
+
+<table>
+  <tr>
+    <th colspan="2">Kategorie 3: <span style="border-bottom: 1px solid #333; display: inline-block; width: 200px;">&nbsp;</span></th>
+  </tr>
+  <tr><td width="80">Frage 3.1:</td><td></td></tr>
+  <tr><td>Frage 3.2:</td><td></td></tr>
+  <tr><td>Frage 3.3:</td><td></td></tr>
+</table>
+
+<br>
+
+<table>
+  <tr>
+    <th colspan="2">Kategorie 4: <span style="border-bottom: 1px solid #333; display: inline-block; width: 200px;">&nbsp;</span></th>
+  </tr>
+  <tr><td width="80">Frage 4.1:</td><td></td></tr>
+  <tr><td>Frage 4.2:</td><td></td></tr>
+  <tr><td>Frage 4.3:</td><td></td></tr>
+</table>
+
+<hr>
+
+<h2>7. Prompt-Anpassungen</h2>
+
+<p class="hint">Die drei Modi (Coach, Impuls, Rohdaten) sind strukturell fix, aber die Einleitung und das "Skillset" der KI können angepasst werden.</p>
+
+<h3>KI-Rolle/Expertise</h3>
+<p class="hint">Welche Expertise soll die KI verkörpern? (z.B. "Change-Experte", "Prompt-Engineering-Spezialist", "Agile Coach")</p>
+<div class="input-field"></div>
+
+<h3>Kontext im Prompt</h3>
+<p class="hint">Gibt es spezifischen Kontext, der in den Prompt soll? (z.B. Branche, Unternehmenskultur, spezifische Methoden)</p>
+<div class="input-field-large"></div>
+
+<h3>Grenzen der KI</h3>
+<p class="hint">Gibt es Themen, die die KI ausdrücklich NICHT behandeln soll?</p>
+<div class="input-field-large"></div>
+
+<hr>
+
+<h2>8. Optionale Elemente</h2>
+
+<h3>Willkommens-Seite: "Deine Headline"</h3>
+<p>Soll es ein optionales Headline-Feld geben (z.B. aus einem Check-in)?</p>
+<p>&#9744; Ja, mit folgendem Hinweistext: <span style="border-bottom: 1px solid #333; display: inline-block; width: 300px;">&nbsp;</span></p>
+<p>&#9744; Nein</p>
+
+<h3>Warnhinweis auf einer Seite</h3>
+<p>Soll auf einer bestimmten Seite ein Warnhinweis erscheinen?</p>
+<p>&#9744; Ja, auf Schritt ____ mit Text: <span style="border-bottom: 1px solid #333; display: inline-block; width: 300px;">&nbsp;</span></p>
+<p>&#9744; Nein</p>
+
+<h3>Zusätzliche Info-Boxen</h3>
+<p>Sollen irgendwo Tipps, Hinweise oder Erklärungen erscheinen?</p>
+<table>
+  <tr><td width="100">Schritt ____:</td><td></td></tr>
+  <tr><td>Schritt ____:</td><td></td></tr>
+</table>
+
+<hr>
+
+<h2>9. Sonstige Hinweise</h2>
+<p class="hint">Gibt es noch etwas, das wir wissen sollten? Besonderheiten, Wünsche, Ideen?</p>
+<div class="input-field-large" style="min-height: 150px;"></div>
+
+<hr>
+
+<h2>Checkliste vor Abgabe</h2>
+
+<div class="checkbox-group">
+  <label>&#9744; Training-Titel eingetragen</label>
+  <label>&#9744; Lernziele definiert</label>
+  <label>&#9744; Alle Schritte mit Elementen beschrieben</label>
+  <label>&#9744; Bei Slidern: Kategorien zugeordnet (falls gewünscht)</label>
+  <label>&#9744; Bei Verortungs-Skalen: Alle 5 Stufen beschriftet</label>
+  <label>&#9744; KI-Rolle/Expertise definiert</label>
+  <label>&#9744; Steckbrief an Verantwortlichen geschickt</label>
+</div>
+
+<hr>
+
+<h2>Was passiert als nächstes?</h2>
+
+<ol>
+  <li><strong>Du schickst</strong> diesen ausgefüllten Steckbrief an den Programmier-Verantwortlichen</li>
+  <li><strong>Wir prüfen</strong> die Angaben und klären eventuelle Rückfragen</li>
+  <li><strong>Wir programmieren</strong> das Tool (typischerweise 1-3 Tage je nach Umfang)</li>
+  <li><strong>Du bekommst</strong> einen Testlink zur Freigabe</li>
+  <li><strong>Nach Freigabe</strong> geht das Tool live</li>
+</ol>
+
+<hr>
+
+<div class="fixed-box">
+  <h4>Fixe Elemente (nicht veränderbar)</h4>
+  <p>Diese Elemente sind in jedem Training automatisch enthalten:</p>
+  <table>
+    <tr><td><strong>Willkommens-Struktur</strong></td><td>"Willkommen in deinem Führungscockpit" + Lernziele</td></tr>
+    <tr><td><strong>Human-in-the-Loop Check</strong></td><td>Erscheint vor dem Kopieren</td></tr>
+    <tr><td><strong>Verantwortungs-Modal</strong></td><td>Erscheint beim Kopieren</td></tr>
+    <tr><td><strong>3 Prompt-Modi</strong></td><td>Coach, Impuls, Rohdaten</td></tr>
+    <tr><td><strong>DSGVO-Hinweis</strong></td><td>"Alle Daten bleiben lokal im Browser"</td></tr>
+    <tr><td><strong>EU AI Act Link</strong></td><td>Im Footer verlinkt</td></tr>
+    <tr><td><strong>Branding</strong></td><td>Chili and Change Logo, Farben, Footer</td></tr>
+  </table>
+</div>
+
+<hr>
+
+<p style="text-align: center; color: #888; font-size: 0.9em;">
+  <em>Version 1.0 | Chili and Change</em>
+</p>
+
+</body>
+</html>

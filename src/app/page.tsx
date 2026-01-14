@@ -1263,6 +1263,10 @@ export default function Home() {
             <a href="https://t9dd5820b.emailsys1a.net/204/693/1ffdc28d7b/subscribe/form.html?_g=1762792068" target="_blank" rel="noopener noreferrer">Jetzt abonnieren</a>
           </div>
           <div className="footer-col">
+            <h4>🇪🇺 EU AI Act</h4>
+            <a href="http://data.europa.eu/eli/reg/2024/1689" target="_blank" rel="noopener noreferrer">Zur aktuellen Fassung</a>
+          </div>
+          <div className="footer-col">
             <h4>Haftungsausschluss</h4>
             <p>Dieses Tool dient als Reflexionshilfe. Für die Richtigkeit der KI-generierten Inhalte wird keine Haftung übernommen.</p>
           </div>
