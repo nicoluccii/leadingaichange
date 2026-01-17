@@ -1259,6 +1259,8 @@ export default function Home() {
             <a href="https://www.chili-and-change.de" target="_blank" rel="noopener noreferrer">Webseite</a>
             <span style={{ margin: '0 0.5rem', color: 'var(--text-light)' }}>·</span>
             <a href="https://t9dd5820b.emailsys1a.net/204/693/1ffdc28d7b/subscribe/form.html?_g=1762792068" target="_blank" rel="noopener noreferrer">Newsletter</a>
+            <span style={{ margin: '0 0.5rem', color: 'var(--text-light)' }}>·</span>
+            <a href="https://chili-and-change.de/impressum/" target="_blank" rel="noopener noreferrer">Impressum</a>
           </div>
           <div className="footer-col">
             <h4>🇪🇺 EU AI Act</h4>
