@@ -45,7 +45,7 @@ const verortungLabels = {
 } as const;
 
 // Prompt Mode Type
-type PromptMode = 'coach' | 'impuls' | 'rohdaten';
+type PromptMode = 'coach' | 'impuls' | 'rohdaten' | 'kompakt';
 
 // Coach Mode Template (systemisch, fragend, prozessbegleitend)
 const coachPromptTemplate = `Hallo, ich bin dein KI-Coach für das "Leading AI Change"-Programm.
@@ -287,6 +287,52 @@ Erstellt am: {{datum}}
 ---
 
 *Diese Daten sind für deine eigene Reflexion oder als Gesprächsgrundlage gedacht. Bitte nutze nur die in deinem Unternehmen freigegebenen KI-Systeme.*`;
+
+// Kompakt Mode Template (optimiert für Konzern-KI)
+const kompaktPromptTemplate = `KONTEXT:
+Ich bin Führungskraft und habe ein Training zu "Leading AI Change" absolviert – also wie ich KI-getriebenen Wandel in meinem Team begleite und andere für die Veränderung gewinne. Unten sind meine Reflexionsdaten aus dem Training.
+
+DEINE AUFGABE:
+1. Lies meine Daten
+2. Nenne DAS EINE Muster, das dir auffällt (max. 2 Sätze)
+3. Stelle mir EINE Frage, die mich als Führungskraft weiterbringt
+4. Gib mir EINEN konkreten Schritt, den ich in den nächsten 7 Tagen mit meinem Team umsetzen kann
+
+REGELN:
+- Keine Listen, keine Roadmaps
+- Nur auf MEINE Daten beziehen
+- Maximal 150 Wörter
+- Fokus: Wie bringe ich mein Team in Bewegung?
+
+Beginne mit: "Was mir auffällt:"
+
+---
+
+# Meine Reflexionsdaten: Leading AI Change
+Erstellt am: {{datum}}
+
+## Meine Headline
+"{{headline}}"
+
+## Meine Verortung
+- Eigene KI-Nutzung: {{eigene_nutzung}} / 5 – {{eigene_nutzung_label}}
+- Erwartung Organisation: {{erwartung_organisation}} / 5 – {{erwartung_organisation_label}}
+
+## Selbstcheck (0-10)
+*10 = Gut aufgestellt · 0 = Potenzial zur Verbesserung*
+
+ICH: Veränderung {{q1}} | KI-Kompetenz {{q2}} | Zeit für Entwicklung {{q3}}
+TEAM: Motivieren {{q4}} | Ängste adressieren {{q5}} | Empowerment {{q6}}
+STRUKTUR: Zeit {{q7}} | Routinen {{q8}} | Lernräume {{q9}}
+WISSEN: Use Cases {{q10}} | Aufgaben {{q11}} | Ethik {{q12}}
+
+## Erkenntnisse aus dem Austausch
+{{erkenntnisse_austausch}}
+
+## Meine Entwicklungssituation
+Beobachtung: {{situationsbeschreibung}}
+Herausforderung: {{zentrale_herausforderung}}
+Ziel: {{entwicklungsziel}}`;
 
 // Legacy Master Prompt Template (kept for reference)
 const masterPromptTemplate = `Du bist ein Führungsassistent im Rahmen des "Leading AI Change"-Programms.
@@ -625,6 +671,9 @@ export default function Home() {
         break;
       case 'rohdaten':
         template = rohdatenPromptTemplate;
+        break;
+      case 'kompakt':
+        template = kompaktPromptTemplate;
         break;
       default:
         template = coachPromptTemplate;
@@ -1235,6 +1284,18 @@ export default function Home() {
                     </span>
                     <span className="mode-hint">Für eigene Notizen, Gespräche oder freie KI-Nutzung.</span>
                   </button>
+
+                  <button
+                    className="mode-card mode-card-secondary"
+                    onClick={() => handleModeSelect('kompakt')}
+                  >
+                    <span className="mode-icon">🏢</span>
+                    <span className="mode-title">Kompakt</span>
+                    <span className="mode-description">
+                      Optimiert für Konzern-KI
+                    </span>
+                    <span className="mode-hint">Für Microsoft Teams Bot, Copilot & Co.</span>
+                  </button>
                 </div>
               </div>
 
@@ -1255,16 +1316,20 @@ export default function Home() {
                   {selectedMode === 'coach' && '🪞'}
                   {selectedMode === 'impuls' && '⚡'}
                   {selectedMode === 'rohdaten' && '📊'}
+                  {selectedMode === 'kompakt' && '🏢'}
                 </span>
                 <h2 className="card-title" style={{ marginBottom: 0 }}>
                   {selectedMode === 'coach' && 'Coach-Modus'}
                   {selectedMode === 'impuls' && 'Impuls-Modus'}
                   {selectedMode === 'rohdaten' && 'Meine Rohdaten'}
+                  {selectedMode === 'kompakt' && 'Kompakt-Modus'}
                 </h2>
               </div>
               <p className="card-subtitle">
                 {selectedMode === 'rohdaten'
                   ? 'Deine strukturierten Reflexionsdaten – zum Speichern oder Weiterverwenden.'
+                  : selectedMode === 'kompakt'
+                  ? 'Optimiert für Konzern-KI wie Microsoft Teams Bot oder Copilot.'
                   : 'Kopiere diesen Prompt und füge ihn in deinen KI-Assistenten ein.'}
               </p>
 
