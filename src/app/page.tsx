@@ -763,7 +763,16 @@ export default function Home() {
         padding: '1rem'
       }}>
         <div className="card" style={{ maxWidth: '400px', width: '100%', textAlign: 'center' }}>
-          <div className="welcome-icon">🌶️</div>
+          <div style={{ marginBottom: '1.5rem' }}>
+            <Image
+              src="/logo.png"
+              alt="Chili and Change"
+              width={150}
+              height={50}
+              style={{ margin: '0 auto' }}
+              priority
+            />
+          </div>
           <h1 className="card-title" style={{ fontSize: '1.5rem' }}>Führungscockpit</h1>
           <p style={{ color: 'var(--text-medium)', marginBottom: '1rem' }}>Leading AI Change</p>
           <p className="card-subtitle">Bitte gib das Zugangspasswort ein</p>
