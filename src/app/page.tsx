@@ -242,7 +242,9 @@ Erstellt am: {{datum}}
 
 ---
 
-## Selbstcheck: Meine Führungsrolle (1-10)
+## Selbstcheck: Meine Führungsrolle (0-10)
+
+*10 = Gut aufgestellt · 0 = Potenzial zur Verbesserung*
 
 ### ICH-Ebene
 - Umgang mit Veränderungen: {{q1}}
