@@ -1256,6 +1256,12 @@ export default function Home() {
               <div className="reset-container">
                 <button className="btn-reset" onClick={() => setShowResetModal(true)}>Alle Eingaben zurücksetzen</button>
               </div>
+
+              <div style={{ textAlign: 'center', marginTop: '1.5rem', paddingTop: '1rem', borderTop: '1px solid var(--border-light)' }}>
+                <p style={{ fontSize: '0.85rem', color: 'var(--text-light)' }}>
+                  Feedback zu diesem Tool? <a href="mailto:nico@chili-and-change.de?subject=Feedback%20Führungscockpit" style={{ color: 'var(--ocean-blue)' }}>Schreib uns!</a>
+                </p>
+              </div>
             </div>
           </section>
         )}
