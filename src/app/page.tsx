@@ -765,6 +765,7 @@ export default function Home() {
         <div className="card" style={{ maxWidth: '400px', width: '100%', textAlign: 'center' }}>
           <div className="welcome-icon">🌶️</div>
           <h1 className="card-title" style={{ fontSize: '1.5rem' }}>Führungscockpit</h1>
+          <p style={{ color: 'var(--text-medium)', marginBottom: '1rem' }}>Leading AI Change</p>
           <p className="card-subtitle">Bitte gib das Zugangspasswort ein</p>
 
           <form onSubmit={handleLogin} style={{ marginTop: '1.5rem' }}>
