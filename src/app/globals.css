@@ -569,7 +569,7 @@ body {
 /* Saved indicator */
 .saved-indicator {
     position: fixed;
-    bottom: 1rem;
+    bottom: 2.5rem;
     right: 1rem;
     background: var(--success-green);
     color: white;
@@ -579,6 +579,7 @@ body {
     opacity: 0;
     transform: translateY(10px);
     transition: all 0.3s ease;
+    z-index: 101;
 }
 
 .saved-indicator.show {
