@@ -284,7 +284,7 @@ Erstellt am: {{datum}}
 
 ---
 
-*Diese Daten kannst du frei verwenden – für eigene Reflexion, als Gesprächsgrundlage, oder als Input für ein KI-Tool deiner Wahl.*`;
+*Diese Daten sind für deine eigene Reflexion oder als Gesprächsgrundlage gedacht. Bitte nutze nur die in deinem Unternehmen freigegebenen KI-Systeme.*`;
 
 // Legacy Master Prompt Template (kept for reference)
 const masterPromptTemplate = `Du bist ein Führungsassistent im Rahmen des "Leading AI Change"-Programms.
