@@ -759,6 +759,14 @@ export default function Home() {
             <div
               key={step}
               className={`progress-step ${step === currentStep ? 'active' : ''} ${step < currentStep ? 'completed' : ''}`}
+              onClick={() => {
+                if (step <= currentStep) {
+                  setCurrentStep(step);
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+              }}
+              style={{ cursor: step <= currentStep ? 'pointer' : 'default' }}
+              title={step <= currentStep ? `Zu Schritt ${step}` : ''}
             />
           ))}
           <span className="progress-text">Schritt {currentStep} von 6</span>
