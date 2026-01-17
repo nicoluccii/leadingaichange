@@ -1250,15 +1250,16 @@ export default function Home() {
 
                 <div className="mode-selection">
                   <button
-                    className="mode-card"
-                    onClick={() => handleModeSelect('coach')}
+                    className="mode-card mode-card-secondary"
+                    onClick={() => handleModeSelect('kompakt')}
                   >
-                    <span className="mode-icon">🪞</span>
-                    <span className="mode-title">Coach-Modus</span>
+                    <span className="mode-icon">🏢</span>
+                    <span className="mode-title">Kompakt</span>
                     <span className="mode-description">
-                      Reflexion & Vertiefung – fragend, systemisch
+                      Optimiert für Konzern-KI
                     </span>
-                    <span className="mode-hint">Gut, wenn du sortieren und tiefer verstehen willst.</span>
+                    <span className="mode-hint">Für Microsoft Teams Bot, Copilot & Co.</span>
+                    <span className="mode-engine">GPT-3.5 / Konzern-KI</span>
                   </button>
 
                   <button
@@ -1271,6 +1272,20 @@ export default function Home() {
                       Schnelle Orientierung – direkt, handlungsorientiert
                     </span>
                     <span className="mode-hint">Gut, wenn du direkt ins Tun kommen willst.</span>
+                    <span className="mode-engine">GPT-4 / Claude</span>
+                  </button>
+
+                  <button
+                    className="mode-card"
+                    onClick={() => handleModeSelect('coach')}
+                  >
+                    <span className="mode-icon">🪞</span>
+                    <span className="mode-title">Coach-Modus</span>
+                    <span className="mode-description">
+                      Reflexion & Vertiefung – fragend, systemisch
+                    </span>
+                    <span className="mode-hint">Gut, wenn du sortieren und tiefer verstehen willst.</span>
+                    <span className="mode-engine">GPT-4+ / Claude</span>
                   </button>
 
                   <button
@@ -1283,18 +1298,7 @@ export default function Home() {
                       Nur die Daten – für eigene Nutzung
                     </span>
                     <span className="mode-hint">Für eigene Notizen, Gespräche oder freie KI-Nutzung.</span>
-                  </button>
-
-                  <button
-                    className="mode-card mode-card-secondary"
-                    onClick={() => handleModeSelect('kompakt')}
-                  >
-                    <span className="mode-icon">🏢</span>
-                    <span className="mode-title">Kompakt</span>
-                    <span className="mode-description">
-                      Optimiert für Konzern-KI
-                    </span>
-                    <span className="mode-hint">Für Microsoft Teams Bot, Copilot & Co.</span>
+                    <span className="mode-engine">Keine KI nötig</span>
                   </button>
                 </div>
               </div>

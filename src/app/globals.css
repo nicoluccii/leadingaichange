@@ -760,6 +760,15 @@ body {
     font-style: italic;
 }
 
+.mode-engine {
+    font-size: 0.7rem;
+    color: var(--ocean-blue);
+    background: rgba(0, 97, 247, 0.08);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    margin-top: 0.5rem;
+}
+
 @media (max-width: 640px) {
     .mode-card {
         padding: 1rem 1.25rem;
