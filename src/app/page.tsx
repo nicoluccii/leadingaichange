@@ -513,7 +513,12 @@ const initialFormData: FormData = {
   entwicklungsziel: '',
 };
 
+const ACCESS_PASSWORD = 'leadingaichangegiz';
+
 export default function Home() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [passwordInput, setPasswordInput] = useState('');
+  const [passwordError, setPasswordError] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [promptOutput, setPromptOutput] = useState('');
@@ -525,6 +530,17 @@ export default function Home() {
   const [showResponsibilityModal, setShowResponsibilityModal] = useState(false);
   const [pendingMode, setPendingMode] = useState<PromptMode | null>(null);
   const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Handle login
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (passwordInput === ACCESS_PASSWORD) {
+      setIsAuthenticated(true);
+      setPasswordError(false);
+    } else {
+      setPasswordError(true);
+    }
+  };
 
   // Load from localStorage on mount
   useEffect(() => {
@@ -734,6 +750,52 @@ export default function Home() {
     const percent = ((value - (max === 5 ? 1 : 0)) / (max === 5 ? 4 : max)) * 100;
     return `linear-gradient(to right, ${color} 0%, ${color} ${percent}%, #E2E8F0 ${percent}%, #E2E8F0 100%)`;
   };
+
+  // Show login screen if not authenticated
+  if (!isAuthenticated) {
+    return (
+      <div style={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
+        padding: '1rem'
+      }}>
+        <div className="card" style={{ maxWidth: '400px', width: '100%', textAlign: 'center' }}>
+          <div className="welcome-icon">🌶️</div>
+          <h1 className="card-title" style={{ fontSize: '1.5rem' }}>Führungscockpit</h1>
+          <p className="card-subtitle">Bitte gib das Zugangspasswort ein</p>
+
+          <form onSubmit={handleLogin} style={{ marginTop: '1.5rem' }}>
+            <input
+              type="password"
+              className="input-text"
+              placeholder="Passwort"
+              value={passwordInput}
+              onChange={e => {
+                setPasswordInput(e.target.value);
+                setPasswordError(false);
+              }}
+              style={{
+                textAlign: 'center',
+                borderColor: passwordError ? '#EF4444' : undefined
+              }}
+              autoFocus
+            />
+            {passwordError && (
+              <p style={{ color: '#EF4444', fontSize: '0.85rem', marginTop: '0.5rem' }}>
+                Falsches Passwort
+              </p>
+            )}
+            <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '1rem' }}>
+              Zugang
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
