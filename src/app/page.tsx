@@ -1256,10 +1256,10 @@ export default function Home() {
                     <span className="mode-icon">🏢</span>
                     <span className="mode-title">Kompakt</span>
                     <span className="mode-description">
-                      Optimiert für Konzern-KI
+                      Optimiert für einfachere KI-Systeme
                     </span>
-                    <span className="mode-hint">Für Microsoft Teams Bot, Copilot & Co.</span>
-                    <span className="mode-engine">GPT-3.5 / Konzern-KI</span>
+                    <span className="mode-hint">Kurz, klar, auf den Punkt.</span>
+                    <span className="mode-engine">Ab GPT-3.5 · Copilot · Gemini Flash</span>
                   </button>
 
                   <button
@@ -1272,7 +1272,7 @@ export default function Home() {
                       Schnelle Orientierung – direkt, handlungsorientiert
                     </span>
                     <span className="mode-hint">Gut, wenn du direkt ins Tun kommen willst.</span>
-                    <span className="mode-engine">GPT-4 / Claude</span>
+                    <span className="mode-engine">GPT-4 · Claude 3 Sonnet · Gemini Pro</span>
                   </button>
 
                   <button
@@ -1285,7 +1285,7 @@ export default function Home() {
                       Reflexion & Vertiefung – fragend, systemisch
                     </span>
                     <span className="mode-hint">Gut, wenn du sortieren und tiefer verstehen willst.</span>
-                    <span className="mode-engine">GPT-4+ / Claude</span>
+                    <span className="mode-engine">GPT-4 · Claude 3 · Gemini Pro</span>
                   </button>
 
                   <button
@@ -1298,7 +1298,7 @@ export default function Home() {
                       Nur die Daten – für eigene Nutzung
                     </span>
                     <span className="mode-hint">Für eigene Notizen, Gespräche oder freie KI-Nutzung.</span>
-                    <span className="mode-engine">Keine KI nötig</span>
+                    <span className="mode-engine">Beliebig · ohne KI nutzbar</span>
                   </button>
                 </div>
               </div>
@@ -1333,7 +1333,7 @@ export default function Home() {
                 {selectedMode === 'rohdaten'
                   ? 'Deine strukturierten Reflexionsdaten – zum Speichern oder Weiterverwenden.'
                   : selectedMode === 'kompakt'
-                  ? 'Optimiert für Konzern-KI wie Microsoft Teams Bot oder Copilot.'
+                  ? 'Optimiert für einfachere KI-Systeme wie Copilot oder GPT-3.5.'
                   : 'Kopiere diesen Prompt und füge ihn in deinen KI-Assistenten ein.'}
               </p>
 
