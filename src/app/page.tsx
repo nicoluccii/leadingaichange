@@ -577,6 +577,25 @@ export default function Home() {
   const [pendingMode, setPendingMode] = useState<PromptMode | null>(null);
   const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+  // Compliance checkboxes state (EU AI Act Art. 14)
+  const [complianceChecks, setComplianceChecks] = useState({
+    faktenCheck: false,
+    biasFilter: false,
+    datenschutz: false,
+    verantwortung: false,
+  });
+
+  const allComplianceChecked = Object.values(complianceChecks).every(Boolean);
+
+  const resetComplianceChecks = () => {
+    setComplianceChecks({
+      faktenCheck: false,
+      biasFilter: false,
+      datenschutz: false,
+      verantwortung: false,
+    });
+  };
+
   // Handle login
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -730,8 +749,8 @@ export default function Home() {
     setPromptOutput(prompt);
     setShowResponsibilityModal(false);
     setPendingMode(null);
-    setCopyButtonState('copied');
-    setTimeout(() => setCopyButtonState('default'), 3000);
+    resetComplianceChecks(); // Reset checkboxes for new prompt
+    setCopyButtonState('default');
     setCurrentStep(6);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -1344,14 +1363,65 @@ export default function Home() {
                 </div>
               )}
 
-              <div className="warning-box" style={{ background: 'rgba(0, 97, 247, 0.05)', borderLeftColor: 'var(--ocean-blue)' }}>
-                <strong>✋ Human-in-the-Loop Check</strong>
-                <p style={{ margin: '0.5rem 0 0.75rem 0', fontSize: '0.85rem' }}>Bevor du {selectedMode === 'rohdaten' ? 'die Daten weitergibst' : 'den Prompt in einen KI-Assistenten eingibst'}, prüfe:</p>
-                <ol style={{ margin: 0, paddingLeft: '1.5rem', fontSize: '0.85rem' }}>
-                  <li style={{ marginBottom: '0.5rem' }}><strong>Personen raus?</strong><br />Sind Namen, Kontaktdaten oder andere Infos drin, mit denen jemand identifizierbar ist? → Anonymisieren oder streichen.</li>
-                  <li style={{ marginBottom: '0.5rem' }}><strong>Würde ich das einem Fremden zeigen?</strong><br />Stehen hier Geschäftsgeheimnisse, Strategien oder vertrauliche Zahlen drin? → Raus damit.</li>
-                  <li><strong>Sage ich später, dass KI beteiligt war?</strong><br />Wenn das Ergebnis weitergegeben wird: Sei transparent darüber, dass ein KI-Tool mitgewirkt hat.</li>
-                </ol>
+              {/* Compliance Checkliste (EU AI Act Art. 14) */}
+              <div className="compliance-box">
+                <div className="compliance-header">
+                  <span>🇪🇺</span>
+                  <strong>Human-in-the-Loop Checkliste</strong>
+                </div>
+                <p className="compliance-intro">
+                  Bitte bestätige vor dem Kopieren:
+                </p>
+
+                <label className="compliance-check">
+                  <input
+                    type="checkbox"
+                    checked={complianceChecks.faktenCheck}
+                    onChange={e => setComplianceChecks(prev => ({ ...prev, faktenCheck: e.target.checked }))}
+                  />
+                  <span>
+                    <strong>Fakten-Check:</strong> Der Prompt enthält keine falschen Annahmen über Teammitglieder, die die KI nicht kennen kann.
+                  </span>
+                </label>
+
+                <label className="compliance-check">
+                  <input
+                    type="checkbox"
+                    checked={complianceChecks.biasFilter}
+                    onChange={e => setComplianceChecks(prev => ({ ...prev, biasFilter: e.target.checked }))}
+                  />
+                  <span>
+                    <strong>Bias-Filter:</strong> Die Anweisungen fördern keine diskriminierenden Tendenzen (z.B. bzgl. Alter, Geschlecht, Herkunft).
+                  </span>
+                </label>
+
+                <label className="compliance-check">
+                  <input
+                    type="checkbox"
+                    checked={complianceChecks.datenschutz}
+                    onChange={e => setComplianceChecks(prev => ({ ...prev, datenschutz: e.target.checked }))}
+                  />
+                  <span>
+                    <strong>Datenschutz:</strong> Keine Klarnamen oder schutzwürdigen Unternehmensgeheimnisse im Text enthalten.
+                  </span>
+                </label>
+
+                <label className="compliance-check">
+                  <input
+                    type="checkbox"
+                    checked={complianceChecks.verantwortung}
+                    onChange={e => setComplianceChecks(prev => ({ ...prev, verantwortung: e.target.checked }))}
+                  />
+                  <span>
+                    <strong>Verantwortung:</strong> Ich verstehe, dass die KI nur einen Entwurf liefert und ich als Führungskraft die volle Verantwortung trage.
+                  </span>
+                </label>
+
+                <div className="compliance-disclaimer">
+                  <strong>Hinweis gem. EU AI Act:</strong> Dieses System ist ein KI-gestütztes Unterstützungswerkzeug.
+                  Es dient der Strukturierung von Inhalten, nicht der automatisierten Bewertung von Personen.
+                  Die Nutzung erfolgt unter menschlicher Aufsicht (Human-in-the-Loop).
+                </div>
               </div>
 
               <textarea
@@ -1363,9 +1433,11 @@ export default function Home() {
 
               <div className="footer-actions">
                 <button
-                  className="btn btn-success"
+                  className={`btn btn-success ${!allComplianceChecked ? 'btn-disabled' : ''}`}
                   onClick={copyPrompt}
+                  disabled={!allComplianceChecked}
                   style={copyButtonState === 'copied' ? { background: '#10B981' } : {}}
+                  title={!allComplianceChecked ? 'Bitte alle Checkboxen bestätigen' : ''}
                 >
                   {copyButtonState === 'default' ? (
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ verticalAlign: 'middle', marginRight: '0.5rem' }}>
@@ -1377,9 +1449,14 @@ export default function Home() {
                       <polyline points="20 6 9 17 4 12"></polyline>
                     </svg>
                   )}
-                  <span>{copyButtonState === 'default' ? 'Prompt kopieren' : 'Kopiert!'}</span>
+                  <span>{copyButtonState === 'default' ? (allComplianceChecked ? 'Prompt kopieren' : 'Bitte alle Checks bestätigen') : 'Kopiert!'}</span>
                 </button>
-                <button className="btn btn-outline" onClick={downloadPrompt}>
+                <button
+                  className={`btn btn-outline ${!allComplianceChecked ? 'btn-disabled' : ''}`}
+                  onClick={downloadPrompt}
+                  disabled={!allComplianceChecked}
+                  title={!allComplianceChecked ? 'Bitte alle Checkboxen bestätigen' : ''}
+                >
                   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ verticalAlign: 'middle', marginRight: '0.5rem' }}>
                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                     <polyline points="7 10 12 15 17 10"></polyline>
@@ -1459,25 +1536,19 @@ export default function Home() {
         </div>
       )}
 
-      {/* Responsibility Modal - appears BEFORE copying */}
+      {/* Responsibility Modal - kurzer Hinweis vor Prompt-Generierung */}
       {showResponsibilityModal && (
         <div className="modal-overlay show">
-          <div className="modal" style={{ maxWidth: '520px', textAlign: 'left' }}>
-            <h3 className="modal-title" style={{ color: 'var(--chili-red)', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
-              <span>⚠️</span> Bevor du loslegst
+          <div className="modal" style={{ maxWidth: '420px', textAlign: 'center' }}>
+            <h3 className="modal-title" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
+              <span>🇪🇺</span> Human-in-the-Loop
             </h3>
-            <div style={{ marginTop: '1.25rem', marginBottom: '1.5rem' }}>
-              <p style={{ fontWeight: 600, color: 'var(--text-dark)', marginBottom: '1rem' }}>
-                Ab hier liegt die Verantwortung bei dir.
+            <div style={{ marginTop: '1rem', marginBottom: '1.5rem' }}>
+              <p style={{ color: 'var(--text-medium)', lineHeight: '1.6', marginBottom: '1rem' }}>
+                Im nächsten Schritt siehst du deinen Prompt und eine <strong>Compliance-Checkliste</strong> gemäß EU AI Act.
               </p>
-              <ul style={{ margin: 0, paddingLeft: '1.25rem', color: 'var(--text-medium)', lineHeight: '1.8' }}>
-                <li>KI-Ergebnisse sind nie zu 100% vorhersehbar</li>
-                <li>Die Qualität hängt davon ab, wie du weiterarbeitest – nachfragst, präzisierst, kritisch prüfst</li>
-                <li>Nutze die Outputs als Denkanstoß, nicht als fertige Lösung</li>
-                <li>Gib keine sensiblen personenbezogenen Daten ein</li>
-              </ul>
-              <p style={{ marginTop: '1rem', fontSize: '0.85rem', color: 'var(--text-light)', fontStyle: 'italic' }}>
-                Dieses Gespräch wird nicht gespeichert, protokolliert oder für andere Zwecke verwendet.
+              <p style={{ fontSize: '0.85rem', color: 'var(--text-light)' }}>
+                Du kannst erst kopieren, wenn du alle Punkte bestätigt hast.
               </p>
             </div>
             <div className="modal-buttons" style={{ justifyContent: 'center' }}>
@@ -1485,7 +1556,7 @@ export default function Home() {
                 Abbrechen
               </button>
               <button className="btn btn-primary" onClick={confirmAndGenerate}>
-                ✓ Verstanden – Prompt kopieren
+                Weiter zur Prüfung →
               </button>
             </div>
           </div>
