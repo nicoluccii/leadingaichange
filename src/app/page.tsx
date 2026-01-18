@@ -535,7 +535,7 @@ Am Ende jeder Interaktion:
 Bitte starte jetzt mit deiner Analyse und deinem ersten Impuls.`;
 
 const STORAGE_KEY = 'leadingAIChange_data';
-const TOTAL_STEPS = 6;
+const TOTAL_STEPS = 7;
 
 const initialFormData: FormData = {
   headline: '',
@@ -751,7 +751,7 @@ export default function Home() {
     setPendingMode(null);
     resetComplianceChecks(); // Reset checkboxes for new prompt
     setCopyButtonState('default');
-    setCurrentStep(6);
+    setCurrentStep(7);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -895,7 +895,7 @@ export default function Home() {
           )}
         </div>
         <div className="progress-container">
-          {[1, 2, 3, 4, 5, 6].map(step => (
+          {[1, 2, 3, 4, 5, 6, 7].map(step => (
             <div
               key={step}
               className={`progress-step ${step === currentStep ? 'active' : ''} ${step < currentStep ? 'completed' : ''}`}
@@ -909,7 +909,7 @@ export default function Home() {
               title={step <= currentStep ? `Zu Schritt ${step}` : ''}
             />
           ))}
-          <span className="progress-text">Schritt {currentStep} von 6</span>
+          <span className="progress-text">Schritt {currentStep} von 7</span>
         </div>
       </header>
 
@@ -1204,25 +1204,21 @@ export default function Home() {
         {currentStep === 5 && (
           <section className="step-section active">
             <div className="card">
-              <h2 className="card-title">Entwicklungssituation im Team</h2>
-              <p className="card-subtitle">Beschreibe eine konkrete Situation in deinem Team, die du angehen möchtest.</p>
+              <h2 className="card-title">Entwicklungssituation</h2>
+              <p className="card-subtitle">Beschreibe eine konkrete Situation, die du angehen möchtest.</p>
 
-              <div className="help-box">
-                <div className="help-box-title">💡 Leitfragen</div>
-                <ul>
-                  <li>Was beobachtest du?</li>
-                  <li>Was ist die Herausforderung?</li>
-                  <li>Was brauchst du als Führungskraft?</li>
-                </ul>
-              </div>
-
-              <div className="warning-box">
-                ⚠️ <strong>Wichtig:</strong> Bitte keine Namen nennen. Beschreibe die Situation, nicht die Person.
+              <div className="compliance-box" style={{ marginBottom: '1.5rem' }}>
+                <div className="compliance-header">
+                  <span>🔒</span>
+                  <strong>Datenschutz-Hinweis</strong>
+                </div>
+                <p style={{ fontSize: '0.85rem', color: 'var(--text-medium)', margin: 0 }}>
+                  Bitte keine Klarnamen oder personenbezogene Daten eingeben. Beschreibe Situationen und Rollen, nicht einzelne Personen.
+                </p>
               </div>
 
               <div className="form-group">
-                <label className="form-label" htmlFor="situationsbeschreibung">Entwicklungssituation</label>
-                <p className="form-hint">Was beobachtest du in deinem Team?</p>
+                <label className="form-label" htmlFor="situationsbeschreibung">Was beobachtest du?</label>
                 <textarea
                   id="situationsbeschreibung"
                   className="textarea"
@@ -1234,8 +1230,7 @@ export default function Home() {
               </div>
 
               <div className="form-group">
-                <label className="form-label" htmlFor="zentraleHerausforderung">Zentrale Herausforderung</label>
-                <p className="form-hint">Was ist der Knackpunkt? Was macht es schwierig?</p>
+                <label className="form-label" htmlFor="zentraleHerausforderung">Was ist die zentrale Herausforderung?</label>
                 <textarea
                   id="zentraleHerausforderung"
                   className="textarea"
@@ -1247,8 +1242,7 @@ export default function Home() {
               </div>
 
               <div className="form-group">
-                <label className="form-label" htmlFor="entwicklungsziel">Entwicklungsziel</label>
-                <p className="form-hint">Wo soll es hingehen? Was wäre ein gutes Ergebnis?</p>
+                <label className="form-label" htmlFor="entwicklungsziel">Was ist dein Ziel?</label>
                 <textarea
                   id="entwicklungsziel"
                   className="textarea"
@@ -1259,67 +1253,73 @@ export default function Home() {
                 />
               </div>
 
-              <div style={{ marginTop: '2.5rem', paddingTop: '2rem', borderTop: '1px solid var(--border-light)' }}>
-                <h3 style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: '0.5rem', color: 'var(--text-dark)' }}>
-                  Wähle deinen Modus
-                </h3>
-                <p style={{ color: 'var(--text-medium)', marginBottom: '1.5rem', fontSize: '0.95rem' }}>
-                  Wie möchtest du mit deinen Reflexionen weiterarbeiten?
-                </p>
+              <div className="btn-container">
+                <button className="btn btn-secondary" onClick={prevStep}>← Zurück</button>
+                <button className="btn btn-primary" onClick={nextStep}>Weiter →</button>
+              </div>
+            </div>
+          </section>
+        )}
 
-                <div className="mode-selection">
-                  <button
-                    className="mode-card mode-card-secondary"
-                    onClick={() => handleModeSelect('kompakt')}
-                  >
-                    <span className="mode-icon">🏢</span>
-                    <span className="mode-title">Kompakt</span>
-                    <span className="mode-description">
-                      Optimiert für einfachere KI-Systeme
-                    </span>
-                    <span className="mode-hint">Kurz, klar, auf den Punkt.</span>
-                    <span className="mode-engine">Ab GPT-3.5 · Copilot · Gemini Flash</span>
-                  </button>
+        {/* Step 6: Moduswahl */}
+        {currentStep === 6 && (
+          <section className="step-section active">
+            <div className="card">
+              <h2 className="card-title">Wähle deinen Modus</h2>
+              <p className="card-subtitle">Wie möchtest du mit deinen Reflexionen weiterarbeiten?</p>
 
-                  <button
-                    className="mode-card"
-                    onClick={() => handleModeSelect('impuls')}
-                  >
-                    <span className="mode-icon">⚡</span>
-                    <span className="mode-title">Impuls-Modus</span>
-                    <span className="mode-description">
-                      Schnelle Orientierung – direkt, handlungsorientiert
-                    </span>
-                    <span className="mode-hint">Gut, wenn du direkt ins Tun kommen willst.</span>
-                    <span className="mode-engine">GPT-4 · Claude 3 Sonnet · Gemini Pro</span>
-                  </button>
+              <div className="mode-selection">
+                <button
+                  className="mode-card mode-card-secondary"
+                  onClick={() => handleModeSelect('kompakt')}
+                >
+                  <span className="mode-icon">🏢</span>
+                  <span className="mode-title">Kompakt</span>
+                  <span className="mode-description">
+                    Optimiert für einfachere KI-Systeme
+                  </span>
+                  <span className="mode-hint">Kurz, klar, auf den Punkt.</span>
+                  <span className="mode-engine">Ab GPT-3.5 · Copilot · Gemini Flash</span>
+                </button>
 
-                  <button
-                    className="mode-card"
-                    onClick={() => handleModeSelect('coach')}
-                  >
-                    <span className="mode-icon">🪞</span>
-                    <span className="mode-title">Coach-Modus</span>
-                    <span className="mode-description">
-                      Reflexion & Vertiefung – fragend, systemisch
-                    </span>
-                    <span className="mode-hint">Gut, wenn du sortieren und tiefer verstehen willst.</span>
-                    <span className="mode-engine">GPT-4 · Claude 3 · Gemini Pro</span>
-                  </button>
+                <button
+                  className="mode-card"
+                  onClick={() => handleModeSelect('impuls')}
+                >
+                  <span className="mode-icon">⚡</span>
+                  <span className="mode-title">Impuls-Modus</span>
+                  <span className="mode-description">
+                    Schnelle Orientierung – direkt, handlungsorientiert
+                  </span>
+                  <span className="mode-hint">Gut, wenn du direkt ins Tun kommen willst.</span>
+                  <span className="mode-engine">GPT-4 · Claude 3 Sonnet · Gemini Pro</span>
+                </button>
 
-                  <button
-                    className="mode-card mode-card-secondary"
-                    onClick={() => handleModeSelect('rohdaten')}
-                  >
-                    <span className="mode-icon">📊</span>
-                    <span className="mode-title">Meine Rohdaten</span>
-                    <span className="mode-description">
-                      Nur die Daten – für eigene Nutzung
-                    </span>
-                    <span className="mode-hint">Für eigene Notizen, Gespräche oder freie KI-Nutzung.</span>
-                    <span className="mode-engine">Beliebig · ohne KI nutzbar</span>
-                  </button>
-                </div>
+                <button
+                  className="mode-card"
+                  onClick={() => handleModeSelect('coach')}
+                >
+                  <span className="mode-icon">🪞</span>
+                  <span className="mode-title">Coach-Modus</span>
+                  <span className="mode-description">
+                    Reflexion & Vertiefung – fragend, systemisch
+                  </span>
+                  <span className="mode-hint">Gut, wenn du sortieren und tiefer verstehen willst.</span>
+                  <span className="mode-engine">GPT-4 · Claude 3 · Gemini Pro</span>
+                </button>
+
+                <button
+                  className="mode-card mode-card-secondary"
+                  onClick={() => handleModeSelect('rohdaten')}
+                >
+                  <span className="mode-icon">📊</span>
+                  <span className="mode-title">Meine Rohdaten</span>
+                  <span className="mode-description">
+                    Nur die Daten – für eigene Nutzung
+                  </span>
+                  <span className="mode-hint">Für eigene Notizen, Gespräche oder freie KI-Nutzung.</span>
+                  <span className="mode-engine">Beliebig · ohne KI nutzbar</span>
+                </button>
               </div>
 
               <div className="btn-container" style={{ marginTop: '1.5rem' }}>
@@ -1330,8 +1330,8 @@ export default function Home() {
           </section>
         )}
 
-        {/* Step 6: Prompt Output */}
-        {currentStep === 6 && (
+        {/* Step 7: Prompt Output */}
+        {currentStep === 7 && (
           <section className="step-section active">
             <div className="card">
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
@@ -1413,7 +1413,7 @@ export default function Home() {
                     onChange={e => setComplianceChecks(prev => ({ ...prev, verantwortung: e.target.checked }))}
                   />
                   <span>
-                    <strong>Verantwortung:</strong> Ich verstehe, dass die KI nur einen Entwurf liefert und ich als Führungskraft die volle Verantwortung trage.
+                    <strong>Verantwortung:</strong> Ich verstehe, dass die KI nur einen Entwurf liefert und ich die volle Verantwortung für die weitere Nutzung trage.
                   </span>
                 </label>
 
