@@ -1285,7 +1285,7 @@ export default function Home() {
                     Schnelle Orientierung – direkt, handlungsorientiert
                   </span>
                   <span className="mode-hint">Gut, wenn du direkt ins Tun kommen willst.</span>
-                  <span className="mode-engine">GPT-4 · Claude 3 Sonnet · Gemini Pro</span>
+                  <span className="mode-engine">ChatGPT/Copilot (GPT-4o) · Claude Sonnet</span>
                 </button>
 
                 <button
@@ -1298,7 +1298,7 @@ export default function Home() {
                     Reflexion & Vertiefung – fragend, systemisch
                   </span>
                   <span className="mode-hint">Gut, wenn du sortieren und tiefer verstehen willst.</span>
-                  <span className="mode-engine">GPT-4 · Claude 3 · Gemini Pro</span>
+                  <span className="mode-engine">ChatGPT/Copilot (GPT-4o) · Claude Opus</span>
                 </button>
 
                 <button
