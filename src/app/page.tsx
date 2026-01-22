@@ -98,10 +98,9 @@ VERORTUNG:
 - Eigene KI-Nutzung: {{eigene_nutzung}} / 5 – {{eigene_nutzung_label}}
 - Erwartung der Organisation: {{erwartung_organisation}} / 5 – {{erwartung_organisation_label}}
 
-SELBSTCHECK (0-10):
-*10 = Gut aufgestellt · 0 = Potenzial zur Verbesserung*
+Selbsteinschätzung zur KI-Führungskompetenz auf vier Ebenen (ICH/TEAM/STRUKTUR/WISSEN), jeweils 0-10 (10 = Gut aufgestellt · 0 = Potenzial zur Verbesserung)
 
-ICH: Veränderungsbereitschaft {{q1}} | Eigene KI-Kompetenz {{q2}} | Zeit für Reflexion {{q3}}
+ICH: Eigene Veränderungsbereitschaft {{q1}} | Eigene KI-Kompetenz {{q2}} | Zeit für Reflexion {{q3}}
 TEAM: Team motivieren {{q4}} | Ängste kennen & adressieren {{q5}} | Empowerment fördern {{q6}}
 STRUKTUR: Lernzeit ermöglichen {{q7}} | Austausch-Routinen {{q8}} | Experimentier-Räume {{q9}}
 WISSEN: Use Cases kennen {{q10}} | KI-geeignete Aufgaben {{q11}} | Ethik & Richtlinien {{q12}}
@@ -188,10 +187,9 @@ VERORTUNG:
 - Eigene KI-Nutzung: {{eigene_nutzung}} / 5 – {{eigene_nutzung_label}}
 - Erwartung Organisation: {{erwartung_organisation}} / 5 – {{erwartung_organisation_label}}
 
-SELBSTCHECK (0-10):
-*10 = Gut aufgestellt · 0 = Potenzial zur Verbesserung*
+Selbsteinschätzung zur KI-Führungskompetenz auf vier Ebenen (ICH/TEAM/STRUKTUR/WISSEN), jeweils 0-10 (10 = Gut aufgestellt · 0 = Potenzial zur Verbesserung)
 
-ICH: Veränderungsbereitschaft {{q1}} | Eigene KI-Kompetenz {{q2}} | Zeit für Reflexion {{q3}}
+ICH: Eigene Veränderungsbereitschaft {{q1}} | Eigene KI-Kompetenz {{q2}} | Zeit für Reflexion {{q3}}
 TEAM: Team motivieren {{q4}} | Ängste kennen & adressieren {{q5}} | Empowerment fördern {{q6}}
 STRUKTUR: Lernzeit ermöglichen {{q7}} | Austausch-Routinen {{q8}} | Experimentier-Räume {{q9}}
 WISSEN: Use Cases kennen {{q10}} | KI-geeignete Aufgaben {{q11}} | Ethik & Richtlinien {{q12}}
@@ -248,10 +246,10 @@ Erstellt am: {{datum}}
 
 ---
 
-## SELBSTCHECK (0-10):
-*10 = Gut aufgestellt · 0 = Potenzial zur Verbesserung*
+## Selbsteinschätzung zur KI-Führungskompetenz
+Auf vier Ebenen (ICH/TEAM/STRUKTUR/WISSEN), jeweils 0-10 (10 = Gut aufgestellt · 0 = Potenzial zur Verbesserung)
 
-ICH: Veränderungsbereitschaft {{q1}} | Eigene KI-Kompetenz {{q2}} | Zeit für Reflexion {{q3}}
+ICH: Eigene Veränderungsbereitschaft {{q1}} | Eigene KI-Kompetenz {{q2}} | Zeit für Reflexion {{q3}}
 TEAM: Team motivieren {{q4}} | Ängste kennen & adressieren {{q5}} | Empowerment fördern {{q6}}
 STRUKTUR: Lernzeit ermöglichen {{q7}} | Austausch-Routinen {{q8}} | Experimentier-Räume {{q9}}
 WISSEN: Use Cases kennen {{q10}} | KI-geeignete Aufgaben {{q11}} | Ethik & Richtlinien {{q12}}
@@ -374,7 +372,8 @@ VERORTUNG ICH & ORGANISATION:
 - Eigene KI-Nutzung im Arbeitsalltag: {{eigene_nutzung}} / 5 – {{eigene_nutzung_label}}
 - Wahrgenommene Erwartung / Zug aus der Organisation: {{erwartung_organisation}} / 5 – {{erwartung_organisation_label}}
 
-=== SELBSTCHECK: MEINE FÜHRUNGSROLLE IM KONTEXT VON KI ===
+SELBSTCHECK: MEINE FÜHRUNGSROLLE IM KONTEXT VON KI ===
+Selbsteinschätzung auf vier Ebenen, jeweils 0-10 (10 = Gut aufgestellt · 0 = Potenzial zur Verbesserung)
 
 ICH-Ebene:
 1. Umgang mit Veränderungen: {{q1}} / 10
