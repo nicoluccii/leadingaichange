@@ -372,7 +372,7 @@ VERORTUNG ICH & ORGANISATION:
 - Eigene KI-Nutzung im Arbeitsalltag: {{eigene_nutzung}} / 5 – {{eigene_nutzung_label}}
 - Wahrgenommene Erwartung / Zug aus der Organisation: {{erwartung_organisation}} / 5 – {{erwartung_organisation_label}}
 
-SELBSTCHECK: MEINE FÜHRUNGSROLLE IM KONTEXT VON KI ===
+=== SELBSTCHECK: MEINE FÜHRUNGSROLLE IM KONTEXT VON KI ===
 Selbsteinschätzung auf vier Ebenen, jeweils 0-10 (10 = Gut aufgestellt · 0 = Potenzial zur Verbesserung)
 
 ICH-Ebene:
