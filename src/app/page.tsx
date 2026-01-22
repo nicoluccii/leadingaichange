@@ -309,13 +309,12 @@ Erstellt am: {{datum}}
 - Eigene KI-Nutzung: {{eigene_nutzung}} / 5 – {{eigene_nutzung_label}}
 - Erwartung Organisation: {{erwartung_organisation}} / 5 – {{erwartung_organisation_label}}
 
-## Selbstcheck (0-10)
-*10 = Gut aufgestellt · 0 = Potenzial zur Verbesserung*
+Selbsteinschätzung zur KI-Führungskompetenz auf vier Ebenen (ICH/TEAM/STRUKTUR/WISSEN), jeweils 0-10 (10 = Gut aufgestellt · 0 = Potenzial zur Verbesserung)
 
-ICH: Veränderung {{q1}} | KI-Kompetenz {{q2}} | Zeit für Entwicklung {{q3}}
-TEAM: Motivieren {{q4}} | Ängste adressieren {{q5}} | Empowerment {{q6}}
-STRUKTUR: Zeit {{q7}} | Routinen {{q8}} | Lernräume {{q9}}
-WISSEN: Use Cases {{q10}} | Aufgaben {{q11}} | Ethik {{q12}}
+ICH: Eigene Veränderungsbereitschaft {{q1}} | Eigene KI-Kompetenz {{q2}} | Zeit für Reflexion {{q3}}
+TEAM: Team motivieren {{q4}} | Ängste kennen & adressieren {{q5}} | Empowerment fördern {{q6}}
+STRUKTUR: Lernzeit ermöglichen {{q7}} | Austausch-Routinen {{q8}} | Experimentier-Räume {{q9}}
+WISSEN: Use Cases kennen {{q10}} | KI-geeignete Aufgaben {{q11}} | Ethik & Richtlinien {{q12}}
 
 ## Erkenntnisse aus dem Austausch
 {{erkenntnisse_austausch}}
