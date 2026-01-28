@@ -1415,12 +1415,43 @@ export default function Home() {
                 </div>
               </div>
 
-              <textarea
-                id="promptOutput"
-                className="prompt-textarea"
-                value={promptOutput}
-                onChange={e => setPromptOutput(e.target.value)}
-              />
+              <div style={{ position: 'relative' }}>
+                {!allComplianceChecked && (
+                  <div style={{
+                    position: 'absolute',
+                    inset: 0,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    background: 'rgba(30, 41, 59, 0.7)',
+                    borderRadius: '0.75rem',
+                    zIndex: 10,
+                    gap: '0.75rem',
+                    padding: '2rem',
+                    textAlign: 'center'
+                  }}>
+                    <span style={{ fontSize: '2.5rem' }}>🔒</span>
+                    <span style={{ color: '#F8FAFC', fontWeight: 600, fontSize: '1rem' }}>
+                      Prompt gesperrt
+                    </span>
+                    <span style={{ color: '#94A3B8', fontSize: '0.875rem', maxWidth: '300px' }}>
+                      Bitte bestaetige alle Checkboxen oben, um den Prompt freizuschalten.
+                    </span>
+                  </div>
+                )}
+                <textarea
+                  id="promptOutput"
+                  className="prompt-textarea"
+                  value={promptOutput}
+                  onChange={e => setPromptOutput(e.target.value)}
+                  readOnly={!allComplianceChecked}
+                  style={{
+                    filter: !allComplianceChecked ? 'blur(4px)' : 'none',
+                    pointerEvents: !allComplianceChecked ? 'none' : 'auto'
+                  }}
+                />
+              </div>
 
               <div className="footer-actions">
                 <button
